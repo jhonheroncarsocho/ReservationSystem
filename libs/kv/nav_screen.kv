@@ -1,34 +1,40 @@
 #:import get_color_from_hex kivy.utils.get_color_from_hex
 
 <NavLayout>:
-    ScreenManager:
-        Screen:
-            BoxLayout:
-                orientation: 'vertical'
+    MDBoxLayout:
+        orientation: 'vertical'
 
-                MDToolbar:
-                    title: "MDNavigationRail"
-                    md_bg_color: rail.md_bg_color
+        MDToolbar:
+            title: "Temporary"
+            md_bg_color: rail.md_bg_color
 
-                MDBoxLayout:
+        MDBoxLayout:
+            MDNavigationRail:
+                id: rail
+                md_bg_color: get_color_from_hex(app.colors(1))
+                color_normal: get_color_from_hex(app.colors(2))
+                color_active: get_color_from_hex(app.colors(0))
+                use_resizeable: True
+                rail_state: "open"
 
-                    MDNavigationRail:
-                        id: rail
-                        md_bg_color: get_color_from_hex("#344954")
-                        color_normal: get_color_from_hex("#718089")
-                        color_active: get_color_from_hex("#f3ab44")
 
-                        MDNavigationRailItem:
-                            icon: "language-cpp"
-                            text: "C++"
+                MDNavigationRailItem:
+                    icon: "shopping"
+                    text: "Shop"
+                    on_release:
+                        app.show_screen('screen2')
 
-                        MDNavigationRailItem:
-                            icon: "language-python"
-                            text: "Python"
+                MDNavigationRailItem:
+                    icon: "cart"
+                    text: "Cart"
 
-                        MDNavigationRailItem:
-                            icon: "language-swift"
-                            text: "Swift"
+                MDNavigationRailItem:
+                    icon: "cog"
+                    text: "Settings"
 
-                    ScreenManager:
-                        id: manage
+            ScreenManager:
+                id: manage
+                Home:
+                    id: home
+                    name: 'home'
+
