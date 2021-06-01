@@ -2,6 +2,7 @@ from kivymd.app import MDApp
 from kivymd.uix.card import MDCard
 from kivy.properties import StringProperty, NumericProperty
 from kivy.uix.screenmanager import Screen
+from kivymd.uix.screen import MDScreen
 from kivy.lang.builder import Builder
 from kivymd.utils import asynckivy
 from kivy.clock import Clock
@@ -14,6 +15,6 @@ class Card(MDCard):
     title = StringProperty()
 
 
-class Home(Screen):
+class Home(MDScreen):
     def __init__(self, **kwargs):
         super(Home, self).__init__(**kwargs)

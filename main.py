@@ -23,7 +23,7 @@ class MyApp(MDApp):
         if color_code == 0:
             color_rgba = '#f3cdc0'
         elif color_code == 1:
-            color_rgba = '#ffddce'
+            color_rgba = '#00539CFF'
         elif color_code == 2:
             color_rgba = '#4a2c27'
 
