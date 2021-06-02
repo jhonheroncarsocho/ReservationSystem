@@ -36,7 +36,7 @@ class MyApp(MDApp):
 
 
 if __name__ == "__main__":
-    Config.set("graphics", "width", "1000")
+    Config.set("graphics", "width", "1030")
     Config.set("graphics", "height", "800")
     Config.write()
     MyApp().run()

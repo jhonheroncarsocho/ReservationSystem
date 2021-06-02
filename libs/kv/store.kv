@@ -1,3 +1,40 @@
+<Card>
+    orientation: "vertical"
+    size_hint: None, None
+    size: "200dp", "200dp"
+    canvas:
+        Color:
+            rgba: rgba(app.colors(1))
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    MDBoxLayout:
+        cols: 1
+        orientation: "vertical"
+        size_hint: 1, 1
+        AnchorLayout:
+            anchor_x: 'center'
+            Image:
+                source: root.image
+                size_hint: .5, 1
+
+        MDLabel:
+            size_hint: 1, .2
+            text: root.name
+            font_style: "Caption"
+            theme_text_color: 'Custom'
+            halign: 'center'
+            text_color: 25/255, 0, 0, 1
+
+        MDLabel:
+            size_hint: 1, .2
+            text: 'Stock(s): ' + str(root.stocks)
+            font_style: "Caption"
+            theme_text_color: 'Custom'
+            halign: 'center'
+            text_color: 25/255, 0, 0, 1
+
 <Store>
     name: 'home'
     canvas:
@@ -6,3 +43,13 @@
         Rectangle:
             size: self.size
 
+    BoxLayout:
+        orientation: 'vertical'
+        cols: 3
+        ScrollView:
+            MDGridLayout:
+                id: content
+                adaptive_height: True
+                cols: 4
+                padding: '8dp'
+                spacing: '6dp'
