@@ -1,0 +1,95 @@
+<DialogBox>
+    id: box
+    size_hint: .6, .5
+    auto_dismiss: True
+    canvas:
+        Color:
+            rgba: rgba(app.colors(1))
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    MDBoxLayout:
+
+
+<Card>
+    orientation: "vertical"
+    size_hint: None, None
+    size: "200dp", "200dp"
+    canvas:
+        Color:
+            rgba: rgba('#ffffff')
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    on_release:
+        root.open_dialog()
+    MDBoxLayout:
+        cols: 1
+        orientation: "vertical"
+        size_hint: 1, 1
+        AnchorLayout:
+            anchor_x: 'center'
+            Image:
+                source: root.image
+                size_hint: .5, 1
+
+        MDLabel:
+            size_hint: 1, .2
+            text: root.names
+            font_style: "Caption"
+            theme_text_color: 'Custom'
+            halign: 'center'
+            text_color: 25/255, 0, 0, 1
+
+        MDLabel:
+            size_hint: 1, .2
+            text: 'Stock(s): ' + str(root.stocks)
+            font_style: "Caption"
+            theme_text_color: 'Custom'
+            halign: 'center'
+            text_color: 25/255, 0, 0, 1
+
+<Store>
+    name: 'home'
+#    canvas:
+#        Color:
+#            rgba: rgba('#EEA47FFF')
+#        Rectangle:
+#            size: self.size
+
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDTabs:
+            id: cat_tabs
+            md_bg_color: rgba('#FFFFFF')
+            # background_color: app.theme_cls.primary_color
+            tab_indicator_anim: True
+            background_color:rgba('#FEDBD0')
+            tab_hint_x: True
+            indicator_color: rgba('#442c2e')
+            tab_bar_height: '60dp'
+            text_color_active: rgba('#FB7F71')
+            text_color_normal: rgba('#442c2e')
+            font_name: 'assets/fonts/Rubik/Rubik-SemiBold.ttf'
+
+            Tab:
+                tab_label_text: 'Uniforms'
+
+                ScreenManager:
+                    id: change_screen
+                    Uniforms:
+                        id: uniform
+                        name: 'uniforms'
+            Tab:
+                tab_label_text: 'Books'
+                ScreenManager:
+                    id: change_screen
+                    Books:
+                        id: books
+                        name: 'books'
+
+            Tab:
+                tab_label_text: 'Merchandise'
+
