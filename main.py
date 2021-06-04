@@ -8,10 +8,14 @@ from kivy.lang.builder import Builder
 from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ListProperty, StringProperty, ObjectProperty, NumericProperty
-from libs.baseclass import nav_screen, store, uniforms, books
+from libs.baseclass import nav_screen, store, uniforms, books, detail_uniform
 
 
 class MyApp(MDApp):
+    product_category = StringProperty()
+    log_usr = StringProperty()
+    product_index = NumericProperty()
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 

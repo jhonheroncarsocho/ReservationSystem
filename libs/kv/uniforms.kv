@@ -1,15 +1,34 @@
-<UniformCard>
-    orientation: "vertical"
-    size_hint: None, None
-    size: "200dp", "200dp"
+<DialogBox>
+    id: box
+    size_hint: .6, .5
+    auto_dismiss: True
     canvas:
         Color:
             rgba: rgba(app.colors(1))
         Rectangle:
             pos: self.pos
             size: self.size
-    on_release:
+
+    AnchorLayout:
+        anchor_x: 'center'
+        MDLabel:
+            text: str(root.product_name)
+
+
+<UniformCard>
+    orientation: "vertical"
+    size_hint: None, None
+    size: "200dp", "200dp"
+    on_press:
         root.open_dialog()
+
+    canvas:
+        Color:
+            rgba: rgba(app.colors(1))
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
     MDBoxLayout:
         cols: 1
         orientation: "vertical"

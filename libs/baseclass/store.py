@@ -13,30 +13,6 @@ import sqlite3
 
 Builder.load_file('./libs/kv/store.kv')
 
-class DialogBox(ModalView):
-    index = NumericProperty()
-    product_name = StringProperty('')
-    count = NumericProperty(0)
-
-    def on_open(self):
-        conn = sqlite3.connect('./assets/data/app_data.db')
-        cursor = conn.cursor()
-        cursor.execute(f'SELECT * FROM shop WHERE id = {self.index}')
-        data = cursor.fetchone()
-
-
-class Card(MDCard):
-    index = NumericProperty()
-    name = StringProperty('')
-    image = StringProperty('')
-    stocks = NumericProperty(0)
-    price = StringProperty('')
-    icon = StringProperty()
-    title = StringProperty()
-    count = NumericProperty(0)
-
-    def open_dialog(self):
-        DialogBox(index=self.index).open()
 
 class Tab(MDFloatLayout, MDTabsBase):
     '''Class implementing content for a tab.'''
