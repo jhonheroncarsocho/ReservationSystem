@@ -1,63 +1,38 @@
 #:import get_color_from_hex kivy.utils.get_color_from_hex
 
-#<NavLayout>:
-#    MDBoxLayout:
-#        orientation: 'vertical'
-#
-#        MDToolbar:
-#            title: "Temporary"
-#            specific_text_color: 0,0,0,1
-#            md_bg_color: rail.md_bg_color
-#
-#        BoxLayout:
-#            MDNavigationRail:
-#                id: rail
-#
-#                md_bg_color: get_color_from_hex(app.colors(1))
-#                color_normal: get_color_from_hex(app.colors(2))
-#                color_active: get_color_from_hex(app.colors(0))
-#                use_resizeable: True
-#                width: 60
-#                rail_state: "open"
-#
-#                MDNavigationRailItem:
-#                    icon: "shopping"
-#                    text: "Shop"
-#
-#                    on_release:
-#                        app.show_screen('screen2')
-#
-#                MDNavigationRailItem:
-#                    icon: "cart"
-#                    text: "Cart"
-#                    halign: 'center'
-#
-#                MDNavigationRailItem:
-#
-#                    icon: "cog"
-#                    text: "Settings"
-
 <NavLayout>:
     name: 'Navigationrail'
     AKNavigationrail:
         id: rail
-        navigation_bg_color: get_color_from_hex(app.colors(1))
-        item_radius: "50dp"
+        navigation_bg_color: get_color_from_hex('#FEDBD0')
+        active_color: rgba('#ffffff')
+        item_radius: "0dp"
 
         AKNavigationrailCustomItem:
             size_hint_y: None
             height: dp(60)
             padding: dp(5)
+            MDLabel:
+                text: 'Welcome!'
+                markup: True
+                font_style: 'H6'
+                halign: 'center'
+                theme_text_color: 'Custom'
+                text_color: rgba('#442c2e')
 
         AKNavigationrailItem:
             text: 'Shop'
+            markup: True
             icon: 'shopping'
             active_text_color: rgba('#442c2e')
             icon_color: rgba('#442c2e')
             active_icon_color: rgba('#442c2e')
+            on_release: app.show_screen('shop')
 
         AKNavigationrailItem:
             text: 'Cart'
+            markup: True
+            font_name: 'assets/fonts/Rubik/Rubik-Medium.ttf'
             icon: 'cart'
             active_text_color: rgba('#442c2e')
             icon_color: rgba('#442c2e')
@@ -65,8 +40,8 @@
 
         AKNavigationrailItem:
             text: 'Settings'
+            markup: True
             icon: 'cog'
-
             active_text_color: rgba('#442c2e')
             icon_color: rgba('#442c2e')
             active_icon_color: rgba('#442c2e')
@@ -76,7 +51,7 @@
         AKNavigationrailContent:
             ScreenManager:
                 id: manage
-                Home:
-                    id: home
-                    name: 'home'
+                Store:
+                    id: shop
+                    name: 'shop'
 
