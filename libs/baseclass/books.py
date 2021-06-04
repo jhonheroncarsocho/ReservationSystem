@@ -70,6 +70,3 @@ class Books(Screen):
         self.ids.content.clear_widgets()
 
 
-    def on_leave(self, *args):
-        self.ids.content.clear_widgets()
-
