@@ -12,6 +12,10 @@ from libs.baseclass import nav_screen, store, uniforms, books
 
 
 class MyApp(MDApp):
+    product_category = StringProperty()
+    log_usr = StringProperty()
+    product_index = NumericProperty()
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -37,6 +41,7 @@ class MyApp(MDApp):
 
 if __name__ == "__main__":
     Config.set("graphics", "width", "1180")
+
     Config.set("graphics", "height", "800")
     Config.write()
     MyApp().run()

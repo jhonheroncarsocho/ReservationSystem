@@ -24,18 +24,24 @@ class UniformCard(MDCard):
     title = StringProperty()
     count = NumericProperty(0)
 
-
+    
 class Uniforms(Screen):
     def __init__(self, **kwargs):
         super(Uniforms, self).__init__(**kwargs)
 
+        self.get = MDApp.get_running_app()
+
     def on_enter(self, *args):
+        self.get.product_category = 'Uniform'
+
         data_items = self.store_direct()
 
         async def on_enter():
             for info in data_items:
                 await asynckivy.sleep(0)
+
                 store_widgets = UniformCard(index=info[0], name=info[1], price=info[2], stocks=info[3])
+
                 self.ids.content.add_widget(store_widgets)
 
         asynckivy.start(on_enter())

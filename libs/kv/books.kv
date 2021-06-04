@@ -1,8 +1,10 @@
 <BookCard>
     orientation: "vertical"
     size_hint: None, None
+
     size: "300dp", "300dp"
     radius: [20,]
+
 
 
     MDBoxLayout:
@@ -11,6 +13,7 @@
         size_hint: 1, 1
         AnchorLayout:
             anchor_x: 'center'
+
             FitImage:
                 source: f'assets/images/Book{root.index}.png'
                 size_hint_y: 1
@@ -46,7 +49,6 @@
 
 <Books>
     name: 'products'
-
     BoxLayout:
         orientation: 'vertical'
 
@@ -54,6 +56,8 @@
             MDGridLayout:
                 id: content
                 adaptive_height: True
+
                 cols: 3
                 padding: '25dp'
                 spacing: '15dp'
+

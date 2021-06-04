@@ -4,9 +4,11 @@
     name: 'Navigationrail'
     AKNavigationrail:
         id: rail
+
         navigation_bg_color: get_color_from_hex('#FEDBD0')
         active_color: rgba('#ffffff')
         item_radius: "0dp"
+
 
         AKNavigationrailCustomItem:
             size_hint_y: None
@@ -24,9 +26,11 @@
             text: 'Shop'
             markup: True
             icon: 'shopping'
+
             active_text_color: rgba('#442c2e')
             icon_color: rgba('#442c2e')
             active_icon_color: rgba('#442c2e')
+
             on_release: app.show_screen('shop')
 
         AKNavigationrailItem:
@@ -34,14 +38,15 @@
             markup: True
             font_name: 'assets/fonts/Rubik/Rubik-Medium.ttf'
             icon: 'cart'
-            active_text_color: rgba('#442c2e')
-            icon_color: rgba('#442c2e')
-            active_icon_color: rgba('#442c2e')
+            active_text_color: rgba('#EEA47FFF')
+            icon_color: rgba('#EEA47FFF')
+            active_icon_color: rgba('#EEA47FFF')
 
         AKNavigationrailItem:
             text: 'Settings'
             markup: True
             icon: 'cog'
+
             active_text_color: rgba('#442c2e')
             icon_color: rgba('#442c2e')
             active_icon_color: rgba('#442c2e')

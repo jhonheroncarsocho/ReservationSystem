@@ -13,18 +13,6 @@ import sqlite3
 
 Builder.load_file('./libs/kv/store.kv')
 
-
-class Card(MDCard):
-    index = NumericProperty()
-    names = StringProperty('')
-    image = StringProperty('')
-    stocks = NumericProperty(0)
-    price = StringProperty('')
-    icon = StringProperty()
-    title = StringProperty()
-    count = NumericProperty(0)
-
-
 class Tab(MDFloatLayout, MDTabsBase):
     '''Class implementing content for a tab.'''
 
@@ -61,7 +49,6 @@ class Store(Screen):
     #     conn.close()
     #
     #     return data_items  # data_items
-
 
     def on_leave(self, *args):
         self.ids.content.clear_widgets()

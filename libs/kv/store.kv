@@ -1,17 +1,3 @@
-<DialogBox>
-    id: box
-    size_hint: .6, .5
-    auto_dismiss: True
-    canvas:
-        Color:
-            rgba: rgba(app.colors(1))
-        Rectangle:
-            pos: self.pos
-            size: self.size
-
-    MDBoxLayout:
-
-
 <Card>
     orientation: "vertical"
     size_hint: None, None
@@ -19,6 +5,7 @@
     canvas:
         Color:
             rgba: rgba('#ffffff')
+
         Rectangle:
             pos: self.pos
             size: self.size
@@ -37,6 +24,7 @@
         MDLabel:
             size_hint: 1, .2
             text: root.names
+
             font_style: "Caption"
             theme_text_color: 'Custom'
             halign: 'center'
@@ -52,6 +40,7 @@
 
 <Store>
     name: 'home'
+
 #    canvas:
 #        Color:
 #            rgba: rgba('#EEA47FFF')
@@ -63,6 +52,7 @@
 
         MDTabs:
             id: cat_tabs
+
             md_bg_color: rgba('#FFFFFF')
             # background_color: app.theme_cls.primary_color
             tab_indicator_anim: True
@@ -83,13 +73,15 @@
                         id: uniform
                         name: 'uniforms'
             Tab:
+
                 tab_label_text: 'Books'
+
                 ScreenManager:
                     id: change_screen
                     Books:
                         id: books
                         name: 'books'
 
+
             Tab:
                 tab_label_text: 'Merchandise'
-
