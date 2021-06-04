@@ -1,0 +1,59 @@
+<BookCard>
+    orientation: "vertical"
+    size_hint: None, None
+    size: "300dp", "300dp"
+    radius: [20,]
+
+
+    MDBoxLayout:
+        cols: 1
+        orientation: "vertical"
+        size_hint: 1, 1
+        AnchorLayout:
+            anchor_x: 'center'
+            FitImage:
+                source: f'assets/images/Book{root.index}.png'
+                size_hint_y: 1
+                pos_hint: {"top": 1}
+                radius: [20, 20, 0, 0, ]
+
+
+        MDLabel:
+            size_hint: 1, .2
+            text: f"[font=assets/fonts/Rubik/Rubik-Medium.ttf]{root.name}[/font]"
+            markup: True
+            #font_name: 'assets/fonts/Rubik/Rubik-Medium.ttf'
+            font_style: "H6"
+            theme_text_color: 'Custom'
+            halign: 'center'
+            text_color: rgba('#442c2e')
+
+        MDLabel:
+            size_hint: 1, .2
+            text: f'[font=assets/fonts/Rubik/Rubik-Medium.ttf]Stock(s): {str(root.stocks)}[/font]'
+            markup: True
+            font_style: "Body2"
+            halign: 'center'
+            theme_text_color: 'Custom'
+            text_color: rgba('#442c2e')
+
+
+        MDIconButton:
+            icon: 'cart-plus'
+            icon_color: rgba('#442c2e')
+            #md_bg_color: rgba('#FEDBD0')
+            pos_hint: {'center_x': .9, 'center_y': .3}
+
+<Books>
+    name: 'products'
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        ScrollView:
+            MDGridLayout:
+                id: content
+                adaptive_height: True
+                cols: 3
+                padding: '25dp'
+                spacing: '15dp'
