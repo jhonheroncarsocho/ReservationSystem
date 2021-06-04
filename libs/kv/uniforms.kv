@@ -1,27 +1,8 @@
-<DialogBox>
-    id: box
-    size_hint: .6, .5
-    auto_dismiss: True
-    canvas:
-        Color:
-            rgba: rgba(app.colors(1))
-        Rectangle:
-            pos: self.pos
-            size: self.size
-
-    AnchorLayout:
-        anchor_x: 'center'
-        MDLabel:
-            text: str(root.product_name)
-
-
 <UniformCard>
     orientation: "vertical"
     size_hint: None, None
     size: "200dp", "200dp"
-    on_press:
-        root.open_dialog()
-
+    
     canvas:
         Color:
             rgba: rgba(app.colors(1))
@@ -58,12 +39,6 @@
 
 <Uniforms>
     name: 'products'
-    canvas:
-        Color:
-            rgba: rgba(app.colors(0))
-        Rectangle:
-            pos: self.pos
-            size: self.size
 
     BoxLayout:
         orientation: 'vertical'
@@ -74,4 +49,6 @@
                 adaptive_height: True
                 cols: 4
                 padding: '8dp'
+
                 spacing: '6dp'
+

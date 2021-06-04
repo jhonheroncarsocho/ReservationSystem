@@ -1,51 +1,54 @@
 <BookCard>
     orientation: "vertical"
     size_hint: None, None
-    size: "200dp", "200dp"
-    canvas:
-        Color:
-            rgba: rgba(app.colors(1))
-        Rectangle:
-            pos: self.pos
-            size: self.size
-    on_release:
-        root.open_dialog()
+
+    size: "300dp", "300dp"
+    radius: [20,]
+
+
+
     MDBoxLayout:
         cols: 1
         orientation: "vertical"
         size_hint: 1, 1
         AnchorLayout:
             anchor_x: 'center'
-            Image:
-                source: root.image
-                size_hint: .5, 1
+
+            FitImage:
+                source: f'assets/images/Book{root.index}.png'
+                size_hint_y: 1
+                pos_hint: {"top": 1}
+                radius: [20, 20, 0, 0, ]
+
 
         MDLabel:
             size_hint: 1, .2
-            text: root.name
-            font_style: "Caption"
+            text: f"[font=assets/fonts/Rubik/Rubik-Medium.ttf]{root.name}[/font]"
+            markup: True
+            #font_name: 'assets/fonts/Rubik/Rubik-Medium.ttf'
+            font_style: "H6"
             theme_text_color: 'Custom'
             halign: 'center'
-            text_color: 25/255, 0, 0, 1
+            text_color: rgba('#442c2e')
 
         MDLabel:
             size_hint: 1, .2
-            text: 'Stock(s): ' + str(root.stocks)
-            font_style: "Caption"
-            theme_text_color: 'Custom'
+            text: f'[font=assets/fonts/Rubik/Rubik-Medium.ttf]Stock(s): {str(root.stocks)}[/font]'
+            markup: True
+            font_style: "Body2"
             halign: 'center'
-            text_color: 25/255, 0, 0, 1
+            theme_text_color: 'Custom'
+            text_color: rgba('#442c2e')
 
+
+        MDIconButton:
+            icon: 'cart-plus'
+            icon_color: rgba('#442c2e')
+            #md_bg_color: rgba('#FEDBD0')
+            pos_hint: {'center_x': .9, 'center_y': .3}
 
 <Books>
     name: 'products'
-    canvas:
-        Color:
-            rgba: rgba(app.colors(0))
-        Rectangle:
-            pos: self.pos
-            size: self.size
-
     BoxLayout:
         orientation: 'vertical'
 
@@ -53,6 +56,8 @@
             MDGridLayout:
                 id: content
                 adaptive_height: True
-                cols: 4
-                padding: '8dp'
-                spacing: '6dp'
+
+                cols: 3
+                padding: '25dp'
+                spacing: '15dp'
+

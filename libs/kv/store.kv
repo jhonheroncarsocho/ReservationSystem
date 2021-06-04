@@ -4,7 +4,8 @@
     size: "200dp", "200dp"
     canvas:
         Color:
-            rgba: rgba(app.colors(1))
+            rgba: rgba('#ffffff')
+
         Rectangle:
             pos: self.pos
             size: self.size
@@ -22,7 +23,8 @@
 
         MDLabel:
             size_hint: 1, .2
-            text: root.name
+            text: root.names
+
             font_style: "Caption"
             theme_text_color: 'Custom'
             halign: 'center'
@@ -38,32 +40,48 @@
 
 <Store>
     name: 'home'
-    canvas:
-        Color:
-            rgba: rgba('#EEA47FFF')
-        Rectangle:
-            size: self.size
+
+#    canvas:
+#        Color:
+#            rgba: rgba('#EEA47FFF')
+#        Rectangle:
+#            size: self.size
 
     MDBoxLayout:
         orientation: "vertical"
 
         MDTabs:
             id: cat_tabs
-            tab_indicator_anim: False
+
+            md_bg_color: rgba('#FFFFFF')
             # background_color: app.theme_cls.primary_color
             tab_indicator_anim: True
+            background_color:rgba('#FEDBD0')
+            tab_hint_x: True
+            indicator_color: rgba('#442c2e')
+            tab_bar_height: '60dp'
+            text_color_active: rgba('#FB7F71')
+            text_color_normal: rgba('#442c2e')
+            font_name: 'assets/fonts/Rubik/Rubik-SemiBold.ttf'
 
             Tab:
-                title: 'Uniforms'
+                tab_label_text: 'Uniforms'
+
                 ScreenManager:
                     id: change_screen
                     Uniforms:
                         id: uniform
                         name: 'uniforms'
             Tab:
-                title: 'Books'
+
+                tab_label_text: 'Books'
+
                 ScreenManager:
                     id: change_screen
                     Books:
                         id: books
                         name: 'books'
+
+
+            Tab:
+                tab_label_text: 'Merchandise'

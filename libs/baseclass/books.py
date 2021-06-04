@@ -28,6 +28,7 @@ class BookCard(MDCard):
 class Books(Screen):
     def __init__(self, **kwargs):
         super(Books, self).__init__(**kwargs)
+
         self.get = MDApp.get_running_app()
 
     def on_enter(self, *args):
@@ -37,8 +38,8 @@ class Books(Screen):
         async def on_enter():
             for info in data_items:
                 await asynckivy.sleep(0)
-                store_widgets = BookCard(index=info[0], name=info[1], price=info[2], stocks=info[3],
-                                         on_press=self.on_press)
+                store_widgets = BookCard(index=info[0], name=info[1], price=info[2], stocks=info[3])
+                
                 self.ids.content.add_widget(store_widgets)
 
         asynckivy.start(on_enter())
@@ -47,9 +48,14 @@ class Books(Screen):
         data_items = []
         conn = sqlite3.connect('./assets/data/app_data.db')
         cursor = conn.cursor()
-        cursor.execute("CREATE TABLE IF NOT EXISTS shop(id integer unique primary key autoincrement, items, price,"
-                       " stocks)")
-        cursor.execute('SELECT * from shop WHERE category = "Book"')
+
+        cursor.execute("""CREATE TABLE IF NOT EXISTS shop(
+        id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, 
+        items TEXT, 
+        price TEXT,
+        stocks INTEGER)""")
+        cursor.execute('SELECT * FROM shop WHERE category = "Book"')
+
         rows = cursor.fetchall()
 
         for row in rows:
@@ -59,9 +65,11 @@ class Books(Screen):
 
         return data_items  # data_items
 
-    def on_press(self, instance):
-        self.get.product_index = instance.index
-        print(instance.index)
 
     def on_leave(self, *args):
         self.ids.content.clear_widgets()
+
+
+    def on_leave(self, *args):
+        self.ids.content.clear_widgets()
+

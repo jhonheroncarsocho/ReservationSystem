@@ -13,7 +13,6 @@ import sqlite3
 
 Builder.load_file('./libs/kv/store.kv')
 
-
 class Tab(MDFloatLayout, MDTabsBase):
     '''Class implementing content for a tab.'''
 
@@ -50,9 +49,6 @@ class Store(Screen):
     #     conn.close()
     #
     #     return data_items  # data_items
-
-    def on_press(self, instance):
-        pass
 
     def on_leave(self, *args):
         self.ids.content.clear_widgets()

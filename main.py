@@ -1,4 +1,4 @@
-import kivy
+
 import sqlite3
 from kivy.config import Config
 from kivymd.app import MDApp
@@ -8,7 +8,7 @@ from kivy.lang.builder import Builder
 from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ListProperty, StringProperty, ObjectProperty, NumericProperty
-from libs.baseclass import nav_screen, store, uniforms, books, detail_uniform
+from libs.baseclass import nav_screen, store, uniforms, books
 
 
 class MyApp(MDApp):
@@ -40,7 +40,8 @@ class MyApp(MDApp):
 
 
 if __name__ == "__main__":
-    Config.set("graphics", "width", "1030")
+    Config.set("graphics", "width", "1180")
+
     Config.set("graphics", "height", "800")
     Config.write()
     MyApp().run()

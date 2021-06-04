@@ -14,18 +14,6 @@ from kivy.clock import Clock
 Builder.load_file('./libs/kv/uniforms.kv')
 
 
-class DialogBox(ModalView):
-    index = NumericProperty()
-    product_name = StringProperty('')
-    count = NumericProperty(0)
-
-    def on_open(self):
-        conn = sqlite3.connect('./assets/data/app_data.db')
-        cursor = conn.cursor()
-        cursor.execute(f'SELECT * FROM shop WHERE id = {self.index}')
-        data = cursor.fetchone()
-
-
 class UniformCard(MDCard):
     index = NumericProperty()
     name = StringProperty('')
@@ -36,24 +24,24 @@ class UniformCard(MDCard):
     title = StringProperty()
     count = NumericProperty(0)
 
-    def open_dialog(self):
-        DialogBox(index=self.index).open()
-
-
+    
 class Uniforms(Screen):
     def __init__(self, **kwargs):
         super(Uniforms, self).__init__(**kwargs)
+
         self.get = MDApp.get_running_app()
 
     def on_enter(self, *args):
         self.get.product_category = 'Uniform'
+
         data_items = self.store_direct()
 
         async def on_enter():
             for info in data_items:
                 await asynckivy.sleep(0)
-                store_widgets = UniformCard(index=info[0], name=info[1], price=info[2], stocks=info[3],
-                                            on_press=self.on_press)
+
+                store_widgets = UniformCard(index=info[0], name=info[1], price=info[2], stocks=info[3])
+
                 self.ids.content.add_widget(store_widgets)
 
         asynckivy.start(on_enter())
@@ -73,9 +61,6 @@ class Uniforms(Screen):
         conn.close()
 
         return data_items  # data_items
-
-    def on_press(self, instance):
-        self.get.product_index = instance.index
 
     def on_leave(self, *args):
         self.ids.content.clear_widgets()
