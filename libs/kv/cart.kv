@@ -1,11 +1,9 @@
-<BookCard>
+<CartCard>
     orientation: "vertical"
     size_hint: None, None
 
     size: "300dp", "300dp"
     radius: [20,]
-
-
 
     MDBoxLayout:
         cols: 1
@@ -15,7 +13,7 @@
             anchor_x: 'center'
 
             FitImage:
-                source: f'assets/images/Book{root.index}.png'
+                source: f'assets/images/Book{root.product_id}.png'
                 size_hint_y: 1
                 pos_hint: {"top": 1}
                 radius: [20, 20, 0, 0, ]
@@ -31,34 +29,30 @@
             halign: 'center'
             text_color: rgba('#442c2e')
 
-        MDLabel:
-            size_hint: 1, .2
-            text: f'[font=assets/fonts/Rubik/Rubik-Medium.ttf]Stock(s): {str(root.stocks)}[/font]'
-            markup: True
-            font_style: "Body2"
+        OneLineAvatarIconListItem:
             halign: 'center'
-            theme_text_color: 'Custom'
-            text_color: rgba('#442c2e')
+            text: str(root.count)
 
+            IconLeftWidget:
+                icon: 'plus'
+                on_press:
+                    if root.count != root.stocks: root.count += 1
+            IconRightWidget:
+                icon: 'minus'
+                on_press:
+                    if root.count > 0: root.count -= 1
 
-        MDIconButton:
-            icon: 'cart-plus'
-            icon_color: rgba('#442c2e')
-            #md_bg_color: rgba('#FEDBD0')
-            pos_hint: {'center_x': .9, 'center_y': .3}
-            on_press: root.to_cart()
-
-<Books>
-    name: 'products'
+<Cart>
+    name: 'cart'
     BoxLayout:
         orientation: 'vertical'
 
         ScrollView:
-            MDGridLayout:
+            MDBoxLayout:
                 id: content
+                orientation: 'vertical'
                 adaptive_height: True
-
-                cols: 3
+                cols: 1
                 padding: '25dp'
                 spacing: '15dp'
 

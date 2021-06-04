@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="73f12ca0-3075-4918-8e59-abafe9fd1afc" name="Default Changelist" comment="added function to change screen">
+    <list default="true" id="73f12ca0-3075-4918-8e59-abafe9fd1afc" name="Default Changelist" comment="merged from tickets project">
+      <change afterPath="$PROJECT_DIR$/libs/baseclass/cart.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/kv/cart.kv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/data/app_data.db" beforeDir="false" afterPath="$PROJECT_DIR$/assets/data/app_data.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/baseclass/books.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/baseclass/books.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/baseclass/store.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/baseclass/store.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/kv/books.kv" beforeDir="false" afterPath="$PROJECT_DIR$/libs/kv/books.kv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/kv/nav_screen.kv" beforeDir="false" afterPath="$PROJECT_DIR$/libs/kv/nav_screen.kv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,6 +23,9 @@
         <option value="Python Script" />
       </list>
     </option>
+  </component>
+  <component name="Git.Rebase.Settings">
+    <option name="NEW_BASE" value="main" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -79,19 +90,11 @@
       <option name="project" value="LOCAL" />
       <updated>1622354135104</updated>
     </task>
-    <task id="LOCAL-00002" summary="added function to change screen">
-      <created>1622372776765</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1622372776766</updated>
-    </task>
-    <option name="localTasksCounter" value="3" />
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="navigation rail" />
-    <MESSAGE value="added function to change screen" />
-    <option name="LAST_COMMIT_MESSAGE" value="added function to change screen" />
+    <option name="LAST_COMMIT_MESSAGE" value="navigation rail" />
   </component>
 </project>
