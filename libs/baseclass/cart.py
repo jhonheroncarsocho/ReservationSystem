@@ -25,7 +25,6 @@ class CartCard(MDCard):
     count = NumericProperty(0)
     category = StringProperty('')
 
-
     def update(self):
         conn = sqlite3.connect('./assets/data/app_data.db')
         cursor = conn.cursor()

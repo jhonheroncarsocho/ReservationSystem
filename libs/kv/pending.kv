@@ -1,0 +1,59 @@
+<PendingCard>
+    orientation: "vertical"
+    size_hint: None, None
+    size: "300dp", "300dp"
+    radius: [20,]
+
+    MDBoxLayout:
+        cols: 1
+        orientation: "vertical"
+        size_hint: 1, 1
+        AnchorLayout:
+            anchor_x: 'center'
+
+            FitImage:
+                source: f'assets/images/Book{root.product_id}.png'
+                size_hint_y: 1
+                pos_hint: {"top": 1}
+                radius: [20, 20, 0, 0, ]
+
+
+        MDLabel:
+            size_hint: 1, .2
+            text: f"[font=assets/fonts/Rubik/Rubik-Medium.ttf]{root.name}[/font]"
+            markup: True
+            font_style: "H6"
+            theme_text_color: 'Custom'
+            halign: 'center'
+            text_color: rgba('#442c2e')
+
+        MDIconButton:
+            icon: 'cancel'
+            icon_color: rgba('#442c2e')
+            #md_bg_color: rgba('#FEDBD0')
+            pos_hint: {'center_x': .9, 'center_y': .3}
+            on_press:
+                root.delete_item()
+
+
+<Pending>
+    name: 'cart'
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDToolbar:
+            title: 'Pending'
+            anchor_title: 'center'
+            elevation: 10
+            md_bg_color: rgba('#FEDBD0')
+            specific_text_color: rgba('#442c2e')
+
+        ScrollView:
+            MDGridLayout:
+                id: content
+
+                adaptive_height: True
+                cols: 3
+                padding: '25dp'
+                spacing: '15dp'
+
