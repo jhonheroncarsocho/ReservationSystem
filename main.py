@@ -7,7 +7,7 @@ from kivy.lang.builder import Builder
 from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ListProperty, StringProperty, ObjectProperty, NumericProperty
-from libs.baseclass import nav_screen, store, uniforms, books, cart
+from libs.baseclass import nav_screen, store, uniforms, books, cart, login
 
 
 class MyApp(MDApp):
@@ -21,6 +21,24 @@ class MyApp(MDApp):
     def build(self):
         kv_run = Builder.load_file("main.kv")
         return kv_run
+
+    def on_start(self):
+
+        if self.get_account() is not None and self.get_account() != []:
+            print(self.get_account())
+            self.root.current = 'nav_screen'
+        else:
+            self.root.current = 'login'
+
+    def get_account(self):
+        try:
+            conn = sqlite3.connect('./assets/data/app_data.db')
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM accounts WHERE status = "active"')
+            data = cursor.fetchone()
+        except (AttributeError, sqlite3.OperationalError):
+            data = None
+        return data
 
     def colors(self, color_code):
         if color_code == 0:

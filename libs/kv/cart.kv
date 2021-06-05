@@ -1,7 +1,6 @@
 <CartCard>
     orientation: "vertical"
     size_hint: None, None
-
     size: "300dp", "300dp"
     radius: [20,]
 
@@ -63,6 +62,7 @@
             elevation: 10
             md_bg_color: rgba('#FEDBD0')
             specific_text_color: rgba('#442c2e')
+            right_action_items: [['upload', lambda x: root.confirm() ]]
 
         ScrollView:
             MDBoxLayout:
