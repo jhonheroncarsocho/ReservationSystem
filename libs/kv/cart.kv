@@ -31,7 +31,7 @@
 
         OneLineAvatarIconListItem:
             halign: 'center'
-            text: str(root.count)
+            text: '                    '+ str(root.count)
 
             IconLeftWidget:
                 icon: 'plus'
@@ -48,6 +48,13 @@
     name: 'cart'
     BoxLayout:
         orientation: 'vertical'
+
+        MDToolbar:
+            title: 'Cart'
+            anchor_title: 'center'
+            elevation: 10
+            md_bg_color: rgba('#FEDBD0')
+            specific_text_color: rgba('#442c2e')
 
         ScrollView:
             MDBoxLayout:
