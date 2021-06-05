@@ -1,67 +1,66 @@
 import sqlite3
 from kivymd.app import MDApp
 from kivymd.uix.card import MDCard
-from kivymd.utils import asynckivy
 from kivy.properties import StringProperty, NumericProperty
-from kivy.uix.screenmanager import Screen
 from kivy.uix.modalview import ModalView
+from kivy.uix.screenmanager import Screen
 from kivy.lang.builder import Builder
+from kivymd.utils import asynckivy
+from kivymd.uix.floatlayout import MDFloatLayout
+from kivymd.uix.list import OneLineListItem
+from kivymd.uix.tab import MDTabsBase
 from kivy.clock import Clock
 
-Builder.load_file('./libs/kv/detail_uniform.kv')
+Builder.load_file('./libs/kv/cart.kv')
 
-class DetailCard(MDCard):
-    image = StringProperty('')
+class CartCard(MDCard):
+    index = NumericProperty()
+    product_id = NumericProperty()
     name = StringProperty('')
-    price = StringProperty('')
-    description = StringProperty('')
-    brand = StringProperty('')
-    count = NumericProperty(0)
+    image = StringProperty('')
     stocks = NumericProperty(0)
+    price = StringProperty('')
+    icon = StringProperty()
+    title = StringProperty()
+    count = NumericProperty(0)
+    category = StringProperty('')
 
-    def reserve(self):
-        get = MDApp.get_running_app()
-        conn = sqlite3.connect('./assets/data/app_data.db')
-        cursor = conn.cursor()
-        cursor.execute('CREATE TABLE IF NOT EXISTS reservations(id integer unique primary key autoincrement, '
-                       'category, product_id, count, products, price)')
-        insert = 'INSERT INTO reservations (usr_id, store_id, product_id, count, products, price) VALUES (?,?,?,?,?,?)'
-        cursor.execute(insert, (id_usr[0], get.store_index, get.product_index, self.count, self.name, self.price))
-        conn.commit()
-        conn.close()
-        Reservation().open()
-
-class ProductDetails(Screen):
+class Cart(Screen):
     def __init__(self, **kwargs):
-        super(ProductDetails, self).__init__(**kwargs)
-        self.get = get = MDApp.get_running_app()
+        super(Cart, self).__init__(**kwargs)
 
-    def on_enter(self):
-        data_items = []
-        conn = data_base.conn_db(f'./assets/data/pcerve_data.db')
-        cursor = conn.cursor()
-        cursor.execute(f"SELECT * FROM store_{self.get.store_index} where id = {self.get.product_index}")
-        rows = cursor.fetchone()
-        cursor.close()
-        conn.close()
+        self.get = MDApp.get_running_app()
 
-        for row in rows:
-            data_items.append(row)
+    def on_enter(self, *args):
+        self.get.product_category = 'Book'
+        data_items = self.store_direct()
 
         async def on_enter():
-            await asynckivy.sleep(0)
-            details = DetailCard(image=f'./assets/{self.get.store_index}/{data_items[0]}.jpg', name=data_items[1],
-                                 description=data_items[3], brand=data_items[5], price=str(data_items[2]),
-                                 stocks=data_items[6])
-            self.ids.content.add_widget(details)
+            for info in data_items:
+                await asynckivy.sleep(0)
+                reserve_widgets = CartCard(index=info[0], product_id=info[1], name=info[2], price=info[3],
+                                           stocks=info[4], count=info[5], category=info[6])
+
+                self.ids.content.add_widget(reserve_widgets)
 
         asynckivy.start(on_enter())
 
-        # self.image = f'./assets/{store_index}/{data_items[0]}.jpg'
-        # self.name = data_items[1]
+    def store_direct(self):
+        data_items = []
+        conn = sqlite3.connect('./assets/data/app_data.db')
+        cursor = conn.cursor()
 
-    def on_pre_leave(self, *args):
+        cursor.execute('CREATE TABLE IF NOT EXISTS cart(id integer unique primary key autoincrement, product_id, name, '
+                       'price, stocks, count, category)')
+        cursor.execute('SELECT * FROM cart')
+
+        rows = cursor.fetchall()
+        conn.close()
+        for row in rows:
+            data_items.append(row)
+
+        print(data_items)
+        return data_items  # data_items
+
+    def on_leave(self, *args):
         self.ids.content.clear_widgets()
-
-class Reservation(ModalView):
-    pass
