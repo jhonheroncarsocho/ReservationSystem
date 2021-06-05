@@ -44,6 +44,14 @@
                     if root.count > 0: root.count -= 1
                     root.update()
 
+        MDIconButton:
+            icon: 'trash-can-outline'
+            icon_color: rgba('#442c2e')
+            #md_bg_color: rgba('#FEDBD0')
+            pos_hint: {'center_x': .9, 'center_y': .3}
+            on_press:
+                root.delete_item()
+
 <Cart>
     name: 'cart'
     BoxLayout:

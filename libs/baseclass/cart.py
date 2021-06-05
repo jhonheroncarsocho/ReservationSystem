@@ -32,6 +32,14 @@ class CartCard(MDCard):
         conn.commit()
         conn.close()
 
+    def delete_item(self):
+        conn = sqlite3.connect('./assets/data/app_data.db')
+        cursor = conn.cursor()
+        cursor.execute(f'DELETE from cart where id = {self.index}')
+        conn.commit()
+        conn.close()
+        self.parent.remove_widget(self)
+
 class Cart(Screen):
     def __init__(self, **kwargs):
         super(Cart, self).__init__(**kwargs)
