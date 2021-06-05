@@ -37,10 +37,12 @@
                 icon: 'plus'
                 on_press:
                     if root.count != root.stocks: root.count += 1
+                    root.update()
             IconRightWidget:
                 icon: 'minus'
                 on_press:
                     if root.count > 0: root.count -= 1
+                    root.update()
 
 <Cart>
     name: 'cart'
