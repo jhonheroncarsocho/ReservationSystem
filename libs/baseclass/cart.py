@@ -25,6 +25,7 @@ class CartCard(MDCard):
     count = NumericProperty(0)
     category = StringProperty('')
 
+
     def update(self):
         conn = sqlite3.connect('./assets/data/app_data.db')
         cursor = conn.cursor()
@@ -57,6 +58,7 @@ class Cart(Screen):
         async def on_enter():
             for info in data_items:
                 await asynckivy.sleep(0)
+
                 reserve_widgets = CartCard(index=info[0], product_id=info[2], name=info[3], price=info[4],
                                            stocks=info[5], count=info[6], category=info[7])
 
@@ -68,6 +70,7 @@ class Cart(Screen):
         data_items = []
         conn = sqlite3.connect('./assets/data/app_data.db')
         cursor = conn.cursor()
+
         cursor.execute('SELECT id FROM accounts WHERE status = "active"')
         uid = cursor.fetchone()
 

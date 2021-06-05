@@ -6,7 +6,6 @@
     radius: [20,]
 
 
-
     MDBoxLayout:
         cols: 1
         orientation: "vertical"
@@ -19,26 +18,42 @@
                 size_hint_y: 1
                 pos_hint: {"top": 1}
                 radius: [20, 20, 0, 0, ]
-
+            FloatLayout:
+                MDIconButton:
+                    icon: 'cart-plus'
+                    theme_text_color: 'Custom'
+                    text_color: rgba('#442c2e')
+                    pos_hint: {'center_x': .9, 'center_y': .9}
+                    on_press: root.to_cart()
 
         MDLabel:
             size_hint: 1, .2
             text: f"[font=assets/fonts/Rubik/Rubik-Medium.ttf]{root.name}[/font]"
             markup: True
-            #font_name: 'assets/fonts/Rubik/Rubik-Medium.ttf'
+
             font_style: "H6"
             theme_text_color: 'Custom'
-            halign: 'center'
+            halign: 'left'
             text_color: rgba('#442c2e')
+            pos_hint: {'center_x': .55}
+        MDLabel:
+            size_hint: 1, .2
+            text: f'₱[font=assets/fonts/Rubik/Rubik-Medium.ttf]{root.price}.00[/font]'
+            markup: True
+            font_style: "Body1"
+            halign: 'center'
+            theme_text_color: 'Custom'
+            text_color: 1,0,0,1
 
         MDLabel:
             size_hint: 1, .2
             text: f'[font=assets/fonts/Rubik/Rubik-Medium.ttf]Stock(s): {str(root.stocks)}[/font]'
             markup: True
             font_style: "Body2"
-            halign: 'center'
+            halign: 'left'
             theme_text_color: 'Custom'
             text_color: rgba('#442c2e')
+            pos_hint: {'center_x': .55}
 
 
         MDIconButton:

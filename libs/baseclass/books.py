@@ -42,9 +42,9 @@ class BookCard(MDCard):
             cursor.execute(f'SELECT count FROM cart WHERE product_id = {self.index}')
             get_count = cursor.fetchone()
             if get_count[0] != self.stocks:
+
                 cursor.execute(f'UPDATE cart SET count = {get_count[0] + 1} WHERE product_id = {self.index} '
                                f'and usr_id = {uid[0]}')
-
         conn.commit()
         conn.close()
 

@@ -50,9 +50,13 @@ class Uniforms(Screen):
         data_items = []
         conn = sqlite3.connect('./assets/data/app_data.db')
         cursor = conn.cursor()
-        cursor.execute("CREATE TABLE IF NOT EXISTS shop(id integer unique primary key autoincrement, items, price,"
-                       " stocks)")
-        cursor.execute('SELECT * from shop WHERE category = "Uniform"')
+        cursor.execute("""CREATE TABLE IF NOT EXISTS shop(
+                       id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, 
+                       items TEXT, 
+                       price INTEGER,
+                       stocks INTEGER)
+                       """)
+        cursor.execute('SELECT * FROM shop WHERE category = "Uniform"')
         rows = cursor.fetchall()
 
         for row in rows:

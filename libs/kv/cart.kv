@@ -22,25 +22,26 @@
             size_hint: 1, .2
             text: f"[font=assets/fonts/Rubik/Rubik-Medium.ttf]{root.name}[/font]"
             markup: True
-            #font_name: 'assets/fonts/Rubik/Rubik-Medium.ttf'
             font_style: "H6"
             theme_text_color: 'Custom'
             halign: 'center'
             text_color: rgba('#442c2e')
 
         OneLineAvatarIconListItem:
-            halign: 'center'
             text: '                    '+ str(root.count)
 
             IconLeftWidget:
                 icon: 'plus'
                 on_press:
                     if root.count != root.stocks: root.count += 1
+
                     root.update()
+
             IconRightWidget:
                 icon: 'minus'
                 on_press:
                     if root.count > 0: root.count -= 1
+
                     root.update()
 
         MDIconButton:
@@ -51,10 +52,12 @@
             on_press:
                 root.delete_item()
 
+
 <Cart>
     name: 'cart'
     BoxLayout:
         orientation: 'vertical'
+
 
         MDToolbar:
             title: 'Cart'
@@ -63,13 +66,13 @@
             md_bg_color: rgba('#FEDBD0')
             specific_text_color: rgba('#442c2e')
             right_action_items: [['upload', lambda x: root.confirm() ]]
-
+            
         ScrollView:
-            MDBoxLayout:
+            MDGridLayout:
                 id: content
-                orientation: 'vertical'
+
                 adaptive_height: True
-                cols: 1
+                cols: 3
                 padding: '25dp'
                 spacing: '15dp'
 
