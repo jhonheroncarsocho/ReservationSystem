@@ -27,25 +27,24 @@ class BookCard(MDCard):
     def to_cart(self):
         conn = sqlite3.connect('./assets/data/app_data.db')
         cursor = conn.cursor()
-        cursor.execute("""CREATE TABLE IF NOT EXISTS cart(
-        id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, 
-        product_id INTEGER, 
-        name TEXT, 
-        price INTEGER, 
-        stocks INTEGER, 
-        count INTEGER, 
-        category TEXT)""")
-        cursor.execute(f'SELECT * FROM cart WHERE product_id = {self.index}')
+
+        cursor.execute(f'SELECT id FROM accounts WHERE status = "active"')
+        uid = cursor.fetchone()
+        cursor.execute('CREATE TABLE IF NOT EXISTS cart(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, usr_id, '
+                       'product_id, name, price, stocks, count, category)')
+        cursor.execute(f'SELECT * FROM cart where product_id = {self.index} and usr_id = {uid[0]}')
         get_product = cursor.fetchone()
         if get_product is None:
-            insert = 'INSERT INTO cart (product_id, name, price, stocks, count, category) VALUES (?,?,?,?,?,?)'
-            cursor.execute(insert, (self.index, self.name, self.price,  self.stocks, 1, self.category))
+            insert = 'INSERT INTO cart (usr_id, product_id, name, price, stocks, count, category) ' \
+                     'VALUES (?,?,?,?,?,?,?)'
+            cursor.execute(insert, (uid[0], self.index, self.name, self.price,  self.stocks, 1, self.category))
         else:
             cursor.execute(f'SELECT count FROM cart WHERE product_id = {self.index}')
             get_count = cursor.fetchone()
             if get_count[0] != self.stocks:
-                cursor.execute(f'UPDATE cart SET count = {get_count[0] + 1} WHERE product_id = {self.index}')
 
+                cursor.execute(f'UPDATE cart SET count = {get_count[0] + 1} WHERE product_id = {self.index} '
+                               f'and usr_id = {uid[0]}')
         conn.commit()
         conn.close()
 

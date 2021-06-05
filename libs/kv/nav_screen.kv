@@ -39,9 +39,11 @@
             markup: True
             font_name: 'assets/fonts/Rubik/Rubik-Light.ttf'
             icon: 'cart'
+            
             active_text_color: rgba('#442c2e')
             icon_color: rgba('#442c2e')
             active_icon_color: rgba('#442c2e')
+
             on_release: app.show_screen('cart')
 
         AKNavigationrailItem:
@@ -53,6 +55,19 @@
             active_text_color: rgba('#442c2e')
             icon_color: rgba('#442c2e')
             active_icon_color: rgba('#442c2e')
+
+        AKNavigationrailItem:
+            text: 'Log Out'
+            markup: True
+            icon: 'logout'
+
+            active_text_color: rgba('#442c2e')
+            icon_color: rgba('#442c2e')
+            active_icon_color: rgba('#442c2e')
+            on_release:
+                root.logout()
+                app.show_screen('shop')
+                app.root.current = 'login'
 
         AKNavigationrailCustomItem:
 
@@ -66,3 +81,4 @@
                 Cart:
                     id: cart
                     name: 'cart'
+

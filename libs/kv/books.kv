@@ -56,8 +56,12 @@
             pos_hint: {'center_x': .55}
 
 
-
-
+        MDIconButton:
+            icon: 'cart-plus'
+            icon_color: rgba('#442c2e')
+            #md_bg_color: rgba('#FEDBD0')
+            pos_hint: {'center_x': .9, 'center_y': .3}
+            on_press: root.to_cart()
 
 <Books>
     name: 'products'

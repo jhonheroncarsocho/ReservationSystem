@@ -1,0 +1,76 @@
+<RegisterUser>
+    name: 'register'
+    usr_name: usr_name
+    usr_email: usr_email
+    usr_pass1: usr_pass1
+    usr_pass2: usr_pass2
+
+    canvas:
+        Color:
+            rgba: 0/255, 139/255, 139/255, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    FloatLayout:
+        Image:
+            source: './assets/LOGO.png'
+            size_hint: .4, .30
+            pos_hint: {'center_x': .5, 'center_y': .85}
+
+        MDTextField:
+            id: usr_name
+            hint_text: 'Name'
+            multiline: False
+            write_tab: False
+            color_mode: 'custom'
+            line_color_focus: 1,1,1,1
+            size_hint: .6, .1
+            pos_hint:{'center_x': .5, 'center_y': .65}
+
+        MDTextField:
+            id: usr_email
+            hint_text: 'Email'
+            multiline: False
+            write_tab: False
+            color_mode: 'custom'
+            line_color_focus: 1,1,1,1
+            size_hint: .6, .1
+            pos_hint:{'center_x': .5, 'center_y': .55}
+
+        MDTextField:
+            id: usr_pass1
+            hint_text: 'Password'
+            multiline: False
+            write_tab: False
+            password: True
+            color_mode: 'custom'
+            line_color_focus: 1,1,1,1
+            size_hint: .6, .1
+            pos_hint:{'center_x': .5, 'center_y': .45}
+
+        MDTextField:
+            id: usr_pass2
+            hint_text: 'Confirm Password'
+            multiline: False
+            write_tab: False
+            password: True
+            color_mode: 'custom'
+            line_color_focus: 1,1,1,1
+            size_hint: .6, .1
+            pos_hint:{'center_x': .5, 'center_y': .35}
+
+        MDFillRoundFlatButton:
+            text:'Sign Up'
+            markup: True
+            md_bg_color: 0/255,206/255,209/255, 1
+            size_hint: .3, .08
+            pos_hint: {'center_x': .5, 'center_y': .25}
+            on_release: if root.register() is True: app.root.current = 'login'
+
+        MDTextButton:
+            text: '[color=#A9A9A9][b]or Log in[/b][/color]'
+            markup: True
+            pos_hint: {'center_x': .5, 'center_y': .15}
+            size_hint: .2, .05
+            on_release: app.root.current = 'login'
