@@ -2,14 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="73f12ca0-3075-4918-8e59-abafe9fd1afc" name="Default Changelist" comment="merged from tickets project">
-      <change afterPath="$PROJECT_DIR$/libs/baseclass/cart.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/kv/cart.kv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/data/app_data.db" beforeDir="false" afterPath="$PROJECT_DIR$/assets/data/app_data.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/baseclass/books.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/baseclass/books.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/baseclass/store.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/baseclass/store.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/kv/books.kv" beforeDir="false" afterPath="$PROJECT_DIR$/libs/kv/books.kv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/baseclass/register.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/baseclass/register.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/kv/nav_screen.kv" beforeDir="false" afterPath="$PROJECT_DIR$/libs/kv/nav_screen.kv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/kv/register.kv" beforeDir="false" afterPath="$PROJECT_DIR$/libs/kv/register.kv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.kv" beforeDir="false" afterPath="$PROJECT_DIR$/main.kv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,7 +41,13 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/baseclass" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Jhon Heron Carsocho\Desktop\DSAProject\ReservationSystem\libs\baseclass" />
+      <recent name="C:\Users\Jhon Heron Carsocho\Desktop\DSAProject\ReservationSystem\libs\kv" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -90,11 +94,58 @@
       <option name="project" value="LOCAL" />
       <updated>1622354135104</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="merged from tickets project">
+      <created>1622829969477</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1622829969477</updated>
+    </task>
+    <task id="LOCAL-00003" summary="merged from tickets project">
+      <created>1622905115578</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1622905115578</updated>
+    </task>
+    <task id="LOCAL-00004" summary="fixed update item count">
+      <created>1622905925095</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1622905925095</updated>
+    </task>
+    <task id="LOCAL-00005" summary="add delete item function">
+      <created>1622907064747</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1622907064748</updated>
+    </task>
+    <task id="LOCAL-00006" summary="added login system">
+      <created>1622920558398</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1622920558399</updated>
+    </task>
+    <task id="LOCAL-00007" summary="added pending">
+      <created>1622924461533</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1622924461533</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="navigation rail" />
-    <option name="LAST_COMMIT_MESSAGE" value="navigation rail" />
+    <MESSAGE value="merged from tickets project" />
+    <MESSAGE value="fixed update item count" />
+    <MESSAGE value="add delete item function" />
+    <MESSAGE value="added login system" />
+    <MESSAGE value="added pending" />
+    <option name="LAST_COMMIT_MESSAGE" value="added pending" />
   </component>
 </project>

@@ -1,11 +1,11 @@
-from libs.baseclass import data_base
+import sqlite3
 from kivy.properties import ObjectProperty
 from kivy.uix.screenmanager import Screen
 from kivy.lang.builder import Builder
 
 Builder.load_file('./libs/kv/register.kv')
 
-class RegisterUser(Screen):
+class Register(Screen):
     usr_name = ObjectProperty(None)
     usr_email = ObjectProperty(None)
     usr_pass1 = ObjectProperty(None)
@@ -13,7 +13,7 @@ class RegisterUser(Screen):
 
     def register(self):
         if self.usr_pass1.text == self.usr_pass2.text:
-            conn = data_base.conn_db('./assets/data/pcerve_data.db')
+            conn = sqlite3.connect('./assets/data/app_data.db')
             cursor = conn.cursor()
 
             cursor.execute('CREATE TABLE IF NOT EXISTS accounts(id integer unique primary key autoincrement, name, '
