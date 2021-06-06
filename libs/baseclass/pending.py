@@ -66,7 +66,7 @@ class Pending(Screen):
         uid = cursor.fetchone()
 
         cursor.execute('CREATE TABLE IF NOT EXISTS pending(id integer unique primary key autoincrement, usr_id, '
-                       'product_id, name, price, stocks, count, category)')
+                       'product_id, name, price, count, category, date)')
         cursor.execute(f'SELECT * FROM pending WHERE usr_id = {uid[0]}')
 
         rows = cursor.fetchall()

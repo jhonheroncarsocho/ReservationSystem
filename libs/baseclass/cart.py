@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 from kivymd.app import MDApp
 from kivymd.uix.card import MDCard
 from kivy.properties import StringProperty, NumericProperty
@@ -9,6 +10,7 @@ from kivymd.utils import asynckivy
 from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.uix.list import OneLineListItem
 from kivymd.uix.tab import MDTabsBase
+from kivymd.uix.picker import MDDatePicker
 from kivy.clock import Clock
 
 Builder.load_file('./libs/kv/cart.kv')
@@ -84,7 +86,13 @@ class Cart(Screen):
 
         return data_items  # data_items
 
-    def confirm(self):
+    def date_pick(self):
+        date_dialog = MDDatePicker(min_date=datetime.date.today(),
+                                   max_date=datetime.datetime.strptime("2025:05:30", '%Y:%m:%d').date(), )
+        date_dialog.bind(on_save=self.on_save, on_cancel=self.on_cancel)
+        date_dialog.open()
+
+    def on_save(self, instance, value, date_range):
         data_items = []
         conn = sqlite3.connect('./assets/data/app_data.db')
         cursor = conn.cursor()
@@ -94,17 +102,21 @@ class Cart(Screen):
         cursor.execute(f'SELECT * FROM cart WHERE usr_id = {uid[0]}')
         rows = cursor.fetchall()
         cursor.execute('CREATE TABLE IF NOT EXISTS pending(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, usr_id, '
-                       'product_id, name, price, count, category)')
+                       'product_id, name, price, count, category, date)')
 
         for row in rows:
-            insert = 'INSERT INTO pending(usr_id, product_id, name, price, count, category) VALUES (?,?,?,?,?,?)'
-            cursor.execute(insert, (row[1], row[2], row[3], row[4], row[6], row[7],))
+            insert = 'INSERT INTO pending(usr_id, product_id, name, price, count, category, date) ' \
+                     'VALUES (?,?,?,?,?,?,?)'
+            cursor.execute(insert, (row[1], row[2], row[3], row[4], row[6], row[7], value,))
             conn.commit()
 
         cursor.execute(f'DELETE from cart WHERE usr_id = {uid[0]}')
         conn.commit()
         conn.close()
         self.ids.content.clear_widgets()
+
+    def on_cancel(self, instance, value):
+        instance.dismiss()
 
     def on_leave(self, *args):
         self.ids.content.clear_widgets()
