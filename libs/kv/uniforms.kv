@@ -1,3 +1,33 @@
+#:import Window kivy.core.window.Window
+#:import StiffScrollEffect kivymd.stiffscroll.StiffScrollEffect
+#:import MagicBehavior kivymd.uix.behaviors.MagicBehavior
+
+<PlanItem>
+    adaptive_size: True
+    on_touch_down:
+        if self.collide_point(*args[1].pos): root.press_on_plan(root)
+
+
+    MDBoxLayout:
+        size_hint: None, None
+        size: "40dp", "40dp"
+
+        canvas.before:
+            Color:
+                rgba: root.color_select
+            BorderImage
+                pos: self.pos
+                size: self.size
+                source: "./assets/images/border.png"
+
+        Label:
+            text_size: self.size
+            halign: 'center'
+            valign: 'middle'
+            text: root.text_item
+            markup: True
+            color: 0, 0, 0, 1
+
 <UniformCard>
     orientation: "vertical"
     size_hint: None, None
@@ -37,7 +67,7 @@
             text_color: rgba('#442c2e')
         MDLabel:
             size_hint: 1, .2
-            text: '[font=assets/fonts/Rubik/Rubik-Medium.ttf]$15,000[/font]'
+            text: f'[font=assets/fonts/Rubik/Rubik-Medium.ttf]Php {root.price}[/font]'
             markup: True
             font_style: "Body1"
             halign: 'center'
@@ -54,6 +84,35 @@
             text_color: rgba('#442c2e')
             pos_hint: {'center_x': .55}
 
+        BoxLayout:
+            size_hint_y: None
+            height: "80dp"
+            padding: "25dp", "25dp", "25dp", 0
+
+            ScrollView
+                bar_width: 0
+
+                MDGridLayout:
+                    id: box
+                    rows: 1
+                    spacing: "10dp"
+                    padding: "5dp"
+                    adaptive_width: True
+
+                    PlanItem:
+                        text_item: 'XS'
+
+                    PlanItem:
+                        text_item: 'S'
+
+                    PlanItem:
+                        text_item: 'M'
+
+                    PlanItem:
+                        text_item: 'L'
+
+                    PlanItem:
+                        text_item: 'XL'
 
 <Uniforms>
     name: 'products'

@@ -6,7 +6,8 @@ from kivy.uix.modalview import ModalView
 from kivy.uix.screenmanager import Screen
 from kivy.lang.builder import Builder
 from kivymd.utils import asynckivy
-from kivymd.uix.floatlayout import MDFloatLayout
+from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelOneLine
+from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.list import OneLineListItem
 from kivymd.uix.tab import MDTabsBase
 from kivy.clock import Clock
@@ -35,7 +36,6 @@ class PendingCard(MDCard):
         conn.close()
         self.parent.remove_widget(self)
 
-
 class Pending(Screen):
     def __init__(self, **kwargs):
         super(Pending, self).__init__(**kwargs)
@@ -43,7 +43,6 @@ class Pending(Screen):
         self.get = MDApp.get_running_app()
 
     def on_enter(self, *args):
-        self.get.product_category = 'Book'
         data_items = self.store_direct()
 
         async def on_enter():
@@ -58,7 +57,6 @@ class Pending(Screen):
         asynckivy.start(on_enter())
 
     def store_direct(self):
-        data_items = []
         conn = sqlite3.connect('./assets/data/app_data.db')
         cursor = conn.cursor()
 
@@ -71,10 +69,8 @@ class Pending(Screen):
 
         rows = cursor.fetchall()
         conn.close()
-        for row in rows:
-            data_items.append(row)
 
-        return data_items  # data_items
+        return rows  # data_items
 
     def on_leave(self, *args):
         self.ids.content.clear_widgets()

@@ -93,7 +93,6 @@ class Cart(Screen):
         date_dialog.open()
 
     def on_save(self, instance, value, date_range):
-        data_items = []
         conn = sqlite3.connect('./assets/data/app_data.db')
         cursor = conn.cursor()
         cursor.execute(f'SELECT id FROM accounts WHERE status ="active"')

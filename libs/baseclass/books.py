@@ -22,7 +22,6 @@ class BookCard(MDCard):
     price = StringProperty('')
     icon = StringProperty()
     title = StringProperty()
-    category = StringProperty('')
 
     def to_cart(self):
         conn = sqlite3.connect('./assets/data/app_data.db')
@@ -35,9 +34,9 @@ class BookCard(MDCard):
         cursor.execute(f'SELECT * FROM cart where product_id = {self.index} and usr_id = {uid[0]}')
         get_product = cursor.fetchone()
         if get_product is None:
-            insert = 'INSERT INTO cart (usr_id, product_id, name, price, stocks, count, category) ' \
+            insert = 'INSERT INTO cart (usr_id, product_id, name, price, stocks, count, size) ' \
                      'VALUES (?,?,?,?,?,?,?)'
-            cursor.execute(insert, (uid[0], self.index, self.name, self.price,  self.stocks, 1, self.category))
+            cursor.execute(insert, (uid[0], self.index, self.name, self.price,  self.stocks, 1, 'None'))
         else:
             cursor.execute(f'SELECT count FROM cart WHERE product_id = {self.index}')
             get_count = cursor.fetchone()
@@ -62,7 +61,7 @@ class Books(Screen):
         async def on_enter():
             for info in data_items:
                 await asynckivy.sleep(0)
-                store_widgets = BookCard(index=info[0], name=info[1], price=info[2], stocks=info[3], category=info[4])
+                store_widgets = BookCard(index=info[0], name=info[1], price=info[2], stocks=info[3])
                 
                 self.ids.content.add_widget(store_widgets)
 

@@ -14,6 +14,7 @@ class MyApp(MDApp):
     product_category = StringProperty()
     log_usr = StringProperty()
     product_index = NumericProperty()
+    selected = StringProperty()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -23,7 +24,6 @@ class MyApp(MDApp):
         return kv_run
 
     def on_start(self):
-
         if self.get_account() is not None and self.get_account() != []:
             print(self.get_account())
             self.root.current = 'nav_screen'

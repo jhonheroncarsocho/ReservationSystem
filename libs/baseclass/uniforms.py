@@ -1,13 +1,18 @@
 import sqlite3
 from kivymd.app import MDApp
 from kivymd.uix.card import MDCard
-from kivy.properties import StringProperty, NumericProperty
+from kivy.properties import StringProperty, NumericProperty, ListProperty, ObjectProperty
 from kivy.uix.modalview import ModalView
 from kivy.uix.screenmanager import Screen
 from kivy.lang.builder import Builder
 from kivymd.utils import asynckivy
+from kivymd.theming import ThemableBehavior
+from kivymd.uix.behaviors import MagicBehavior
+from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.uix.tab import MDTabsBase
+from kivy.utils import get_color_from_hex
+from kivymd.color_definitions import colors
 from kivy.clock import Clock
 
 
@@ -24,15 +29,67 @@ class UniformCard(MDCard):
     title = StringProperty()
     count = NumericProperty(0)
 
-    
+    def to_cart(self):
+        get = MDApp.get_running_app()
+
+        conn = sqlite3.connect('./assets/data/app_data.db')
+        cursor = conn.cursor()
+
+        cursor.execute(f'SELECT id FROM accounts WHERE status = "active"')
+        uid = cursor.fetchone()
+        cursor.execute('CREATE TABLE IF NOT EXISTS cart(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, usr_id, '
+                       'product_id, name, price, stocks, count, size)')
+        cursor.execute(f'SELECT * FROM cart where product_id = {self.index} and usr_id = {uid[0]} and '
+                       f'size = "{get.selected}"')
+        get_product = cursor.fetchone()
+        if get_product is None:
+            insert = 'INSERT INTO cart (usr_id, product_id, name, price, stocks, count, size) ' \
+                     'VALUES (?,?,?,?,?,?,?)'
+            cursor.execute(insert, (uid[0], self.index, self.name, self.price,  self.stocks, 1, get.selected))
+        else:
+            if get_product[7] == get.selected:
+                cursor.execute(f'SELECT count FROM cart WHERE product_id = {self.index} and size = "{get.selected}"')
+                get_count = cursor.fetchone()
+                if get_count[0] != self.stocks:
+
+                    cursor.execute(f'UPDATE cart SET count = {get_count[0] + 1} WHERE product_id = {self.index} '
+                                   f'and usr_id = {uid[0]} and size = "{get.selected}"')
+            else:
+                insert = 'INSERT INTO cart (usr_id, product_id, name, price, stocks, count, size) ' \
+                         'VALUES (?,?,?,?,?,?,?)'
+                cursor.execute(insert, (uid[0], self.index, self.name, self.price, self.stocks, 1, get.selected))
+
+        conn.commit()
+        conn.close()
+
+class PlanItem(ThemableBehavior, MagicBehavior, MDBoxLayout):
+    text_item = StringProperty()
+    border = StringProperty()
+    color_select = ListProperty()
+    selected = StringProperty()
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.color_select = self.theme_cls.disabled_hint_text_color
+        self.primary = get_color_from_hex(colors["BlueGray"]["500"])
+        self.get = MDApp.get_running_app()
+
+    def press_on_plan(self, instance_plan):
+        for widget in self.parent.parent.children[0].children:
+            if widget.color_select == self.primary:
+                widget.color_select = self.color_select
+                self.grow()
+                break
+        instance_plan.color_select = self.primary
+        self.get.selected = instance_plan.text_item
+
+
 class Uniforms(Screen):
     def __init__(self, **kwargs):
         super(Uniforms, self).__init__(**kwargs)
-
         self.get = MDApp.get_running_app()
 
     def on_enter(self, *args):
-        self.get.product_category = 'Uniform'
 
         data_items = self.store_direct()
 
@@ -47,7 +104,6 @@ class Uniforms(Screen):
         asynckivy.start(on_enter())
 
     def store_direct(self):
-        data_items = []
         conn = sqlite3.connect('./assets/data/app_data.db')
         cursor = conn.cursor()
         cursor.execute("""CREATE TABLE IF NOT EXISTS shop(
@@ -59,12 +115,9 @@ class Uniforms(Screen):
         cursor.execute('SELECT * FROM shop WHERE category = "Uniform"')
         rows = cursor.fetchall()
 
-        for row in rows:
-            data_items.append(row)
-
         conn.close()
 
-        return data_items  # data_items
+        return rows  # data_items
 
     def on_leave(self, *args):
         self.ids.content.clear_widgets()
