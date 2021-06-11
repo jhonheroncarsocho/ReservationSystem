@@ -128,6 +128,13 @@ class ConfirmDialog(BoxLayout):
             cursor = conn.cursor()
             cursor.execute(f'CREATE TABLE IF NOT EXISTS AM(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,  res_id)')
             cursor.execute(f'CREATE TABLE IF NOT EXISTS PM(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,  res_id)')
+            if self.ids.field.text == 'MORNING':
+                cursor.execute(f'INSERT INTO AM(res_id) VALUES ({res_id})')
+            elif self.ids.field.text == 'AFTERNOON':
+                cursor.execute(f'INSERT INTO PM(res_id) VALUES ({res_id})')
+
+            conn.commit()
+            conn.close()
 
 class Cart(Screen):
     dialog = None
