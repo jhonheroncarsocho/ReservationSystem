@@ -18,6 +18,7 @@ class MyApp(MDApp):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.title = 'Take a Number'
 
     def build(self):
         kv_run = Builder.load_file("main.kv")
