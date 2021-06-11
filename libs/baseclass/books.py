@@ -30,13 +30,13 @@ class BookCard(MDCard):
         cursor.execute(f'SELECT id FROM accounts WHERE status = "active"')
         uid = cursor.fetchone()
         cursor.execute('CREATE TABLE IF NOT EXISTS cart(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, usr_id, '
-                       'product_id, name, price, stocks, count, category)')
+                       'product_id, name, price, stocks, count, size)')
         cursor.execute(f'SELECT * FROM cart where product_id = {self.index} and usr_id = {uid[0]}')
         get_product = cursor.fetchone()
         if get_product is None:
             insert = 'INSERT INTO cart (usr_id, product_id, name, price, stocks, count, size) ' \
                      'VALUES (?,?,?,?,?,?,?)'
-            cursor.execute(insert, (uid[0], self.index, self.name, self.price,  self.stocks, 1, 'None'))
+            cursor.execute(insert, (uid[0], self.index, self.name, self.price,  self.stocks, 1, ''))
         else:
             cursor.execute(f'SELECT count FROM cart WHERE product_id = {self.index}')
             get_count = cursor.fetchone()

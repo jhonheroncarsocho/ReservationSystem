@@ -12,6 +12,8 @@ from kivymd.uix.list import OneLineListItem
 from kivymd.uix.tab import MDTabsBase
 from kivymd.uix.picker import MDDatePicker
 from kivy.clock import Clock
+from kivymd.uix.dialog import MDDialog
+
 
 Builder.load_file('./libs/kv/cart.kv')
 
@@ -46,6 +48,9 @@ class CartCard(MDCard):
         conn.close()
         self.parent.remove_widget(self)
 
+class TimePicking(MDDialog):
+    pass
+
 class Cart(Screen):
     def __init__(self, **kwargs):
         super(Cart, self).__init__(**kwargs)
@@ -76,7 +81,7 @@ class Cart(Screen):
         uid = cursor.fetchone()
 
         cursor.execute('CREATE TABLE IF NOT EXISTS cart(id integer unique primary key autoincrement, usr_id, '
-                       'product_id, name, price, stocks, count, category)')
+                       'product_id, name, price, stocks, count, size)')
         cursor.execute(f'SELECT * FROM cart WHERE usr_id = {uid[0]}')
 
         rows = cursor.fetchall()
@@ -101,10 +106,10 @@ class Cart(Screen):
         cursor.execute(f'SELECT * FROM cart WHERE usr_id = {uid[0]}')
         rows = cursor.fetchall()
         cursor.execute('CREATE TABLE IF NOT EXISTS pending(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, usr_id, '
-                       'product_id, name, price, count, category, date)')
+                       'product_id, name, price, count, size, date)')
 
         for row in rows:
-            insert = 'INSERT INTO pending(usr_id, product_id, name, price, count, category, date) ' \
+            insert = 'INSERT INTO pending(usr_id, product_id, name, price, count, size, date) ' \
                      'VALUES (?,?,?,?,?,?,?)'
             cursor.execute(insert, (row[1], row[2], row[3], row[4], row[6], row[7], value,))
             conn.commit()
