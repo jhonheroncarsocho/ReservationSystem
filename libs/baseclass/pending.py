@@ -49,7 +49,7 @@ class ReceiptCard(MDCard):
     name = StringProperty()
     price = StringProperty()
     count = NumericProperty()
-    size_uniform = StringProperty()
+    size_uniform = StringProperty('')
     date = StringProperty()
 
 class ViewReceipt(MDDialog):
@@ -70,7 +70,6 @@ class ViewReceipt(MDDialog):
 
             self.ids.dialog_content.add_widget(reserve_widgets)
         self.total_price = total_price
-
 
     def store_direct(self):
         data_items = []
