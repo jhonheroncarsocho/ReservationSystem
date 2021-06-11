@@ -1,40 +1,95 @@
 <PendingCard>
     orientation: "vertical"
     size_hint: None, None
-    size: "300dp", "300dp"
+    size: "300dp", "200dp"
     radius: [20,]
 
     MDBoxLayout:
-        cols: 1
         orientation: "vertical"
-        size_hint: 1, 1
-        AnchorLayout:
-            anchor_x: 'center'
+        cols: 2
+        MDBoxLayout:
+            MDLabel:
+                text: "Reservation ID: " + root.res_id
+        MDBoxLayout:
+            MDLabel:
+                text: "Date: " + root.date
+        MDBoxLayout:
+            MDLabel:
+                text: "Time: " + root.time_pick
+        MDBoxLayout:
+            MDLabel:
+                text: "Your Number: " + str(root.q_number)
 
-            FitImage:
-                source: f'assets/images/Book{root.product_id}.png'
-                size_hint_y: 1
-                pos_hint: {"top": 1}
-                radius: [20, 20, 0, 0, ]
+        MDBoxLayout:
+            AnchorLayout:
+                anchor_x: 'center'
+
+                MDFlatButton:
+                    text: 'Cancel'
+                    on_release:
+                        root.delete_item()
+
+            AnchorLayout:
+                anchor_x: 'center'
+                MDFlatButton:
+                    text: 'View Receipt'
+                    on_release:
+                        root.view_receipt()
+
+<ReceiptCard>
+    orientation: "vertical"
+    size_hint: 1, 100
+    padding: '10dp'
 
 
+    MDBoxLayout:
+        orientation: 'horizontal'
+        cols: 3
         MDLabel:
+            text: str(root.name)
+        MDLabel:
+            text: str(root.count)
+        MDLabel:
+            text: str(root.price)
+
+
+<ViewReceipt>
+    size_hint: None, None
+    size: "500dp", "600dp"
+    canvas:
+        Color:
+            rgba: rgba(app.colors(0))
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    MDBoxLayout:
+        orientation: 'vertical'
+        size_hint: 1,1
+        cols: 1
+
+        MDBoxLayout:
             size_hint: 1, .2
-            text: f"[font=assets/fonts/Rubik/Rubik-Medium.ttf]{root.name}[/font]"
-            markup: True
-            font_style: "H6"
-            theme_text_color: 'Custom'
-            halign: 'center'
-            text_color: rgba('#442c2e')
-
-        MDIconButton:
-            icon: 'cancel'
-            icon_color: rgba('#442c2e')
-            #md_bg_color: rgba('#FEDBD0')
-            pos_hint: {'center_x': .9, 'center_y': .3}
-            on_press:
-                root.delete_item()
-
+            MDLabel:
+                text: 'Product Name'
+            MDLabel:
+                text: 'Count'
+            MDLabel:
+                text: 'Price'
+        MDBoxLayout:
+            cols: 1
+            ScrollView:
+                MDGridLayout:
+                    adaptive_height: True
+                    id: dialog_content
+                    cols: 1
+        MDBoxLayout:
+            size_hint: 1, .2
+            MDLabel:
+                text: ''
+            MDLabel:
+                text: 'Total'
+            MDLabel:
+                text: str(root.total_price)
 
 <Pending>
     name: 'cart'

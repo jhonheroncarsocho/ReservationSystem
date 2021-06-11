@@ -112,7 +112,6 @@ class ConfirmDialog(BoxLayout):
             res_id = ''
             for i in range(10):
                 res_id = res_id + str(random.randint(0, 9))
-            print(res_id)
 
             for row in rows:
                 insert = 'INSERT INTO pending(usr_id, product_id, name, price, count, size, date, res_id) ' \
@@ -126,12 +125,12 @@ class ConfirmDialog(BoxLayout):
             conn.close()
             conn = sqlite3.connect(f'./assets/data/queue_{datetime.date.today()}.db')
             cursor = conn.cursor()
-            cursor.execute(f'CREATE TABLE IF NOT EXISTS AM(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,  res_id)')
-            cursor.execute(f'CREATE TABLE IF NOT EXISTS PM(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,  res_id)')
+            cursor.execute(f'CREATE TABLE IF NOT EXISTS AM(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,  res_id, date)')
+            cursor.execute(f'CREATE TABLE IF NOT EXISTS PM(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,  res_id, date)')
             if self.ids.field.text == 'MORNING':
-                cursor.execute(f'INSERT INTO AM(res_id) VALUES ({res_id})')
+                cursor.execute(f'INSERT INTO AM(res_id, date) VALUES ({res_id}, "{self.selected_date}")')
             elif self.ids.field.text == 'AFTERNOON':
-                cursor.execute(f'INSERT INTO PM(res_id) VALUES ({res_id})')
+                cursor.execute(f'INSERT INTO PM(res_id, date) VALUES ({res_id}, "{self.selected_date}")')
 
             conn.commit()
             conn.close()

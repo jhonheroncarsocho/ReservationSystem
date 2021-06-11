@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 from kivymd.app import MDApp
 from kivymd.uix.card import MDCard
 from kivy.properties import StringProperty, NumericProperty
@@ -10,31 +11,86 @@ from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelOneLine
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.list import OneLineListItem
 from kivymd.uix.tab import MDTabsBase
+from kivymd.uix.dialog import MDDialog
 from kivy.clock import Clock
 
 Builder.load_file('./libs/kv/pending.kv')
 
 class PendingCard(MDCard):
-    index = NumericProperty()
-    product_id = NumericProperty()
-    name = StringProperty('')
-    image = StringProperty('')
-    stocks = NumericProperty(0)
-    price = StringProperty('')
-    icon = StringProperty()
-    title = StringProperty()
-    count = NumericProperty(0)
-    category = StringProperty('')
+    res_id = StringProperty('')
+    date = StringProperty('')
+    q_number = NumericProperty(0)
+    time_pick = StringProperty()
 
     def delete_item(self):
         conn = sqlite3.connect('./assets/data/app_data.db')
         cursor = conn.cursor()
         cursor.execute('SELECT id FROM accounts WHERE status = "active"')
         uid = cursor.fetchone()
-        cursor.execute(f'DELETE from pending where id = {self.index} and usr_id = {uid[0]}')
+        cursor.execute(f'DELETE from pending where res_id = {self.res_id} and usr_id = {uid[0]}')
         conn.commit()
         conn.close()
+        conn = sqlite3.connect(f'./assets/data/queue_{datetime.date.today()}.db')
+        cursor = conn.cursor()
+
+        uid = cursor.fetchone()
+        cursor.execute(f'DELETE from {self.time_pick} where res_id = {self.res_id}')
+        conn.commit()
+        conn.close()
+
         self.parent.remove_widget(self)
+
+    def view_receipt(self):
+        open_receipt = ViewReceipt(res_id=self.res_id)
+        open_receipt.open()
+
+class ReceiptCard(MDCard):
+    index = NumericProperty()
+    name = StringProperty()
+    price = StringProperty()
+    count = NumericProperty()
+    size_uniform = StringProperty()
+    date = StringProperty()
+
+class ViewReceipt(MDDialog):
+    res_id = StringProperty()
+    total_price = NumericProperty()
+
+    def on_open(self):
+        data_items = self.store_direct()
+        print(data_items)
+
+        total_price = 0
+        for info in data_items:
+            x = info[4].replace(",", "")
+            total_price += float(x)
+
+            reserve_widgets = ReceiptCard(index=info[0], name=info[3], price=info[4],
+                                            count=info[5], size_uniform=info[6], date=info[7])
+
+            self.ids.dialog_content.add_widget(reserve_widgets)
+        self.total_price = total_price
+
+
+    def store_direct(self):
+        data_items = []
+        conn = sqlite3.connect('./assets/data/app_data.db')
+        cursor = conn.cursor()
+
+        cursor.execute('SELECT id FROM accounts WHERE status = "active"')
+        uid = cursor.fetchone()
+        print(self.res_id)
+        cursor.execute(f'SELECT * FROM pending WHERE res_id = "{self.res_id}"')
+
+        rows = cursor.fetchall()
+        conn.close()
+        for row in rows:
+            data_items.append(row)
+
+        return data_items  # data_items
+
+    def close_receipt(self):
+        self.dismiss()
 
 class Pending(Screen):
     def __init__(self, **kwargs):
@@ -43,20 +99,42 @@ class Pending(Screen):
         self.get = MDApp.get_running_app()
 
     def on_enter(self, *args):
-        data_items = self.store_direct()
+        res_ids = self.store_direct()
 
         async def on_enter():
-            for info in data_items:
+            for info in res_ids:
                 await asynckivy.sleep(0)
+                # try:
+                #     conn = sqlite3.connect(f'./assets/data/queue_{datetime.date.today()}.db')
+                # except:
+                #     pass
+                conn = sqlite3.connect(f'./assets/data/queue_{datetime.date.today()}.db')
+                cursor = conn.cursor()
 
-                reserve_widgets = PendingCard(index=info[0], product_id=info[2], name=info[3], price=info[4],
-                                              count=info[5], category=info[6])
+                cursor.execute(
+                    f'CREATE TABLE IF NOT EXISTS AM(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,  res_id, date)')
+                cursor.execute(
+                    f'CREATE TABLE IF NOT EXISTS PM(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,  res_id, date)')
 
-                self.ids.content.add_widget(reserve_widgets)
+                cursor.execute(f'SELECT id, date FROM AM WHERE res_id = {info[0]}')
+                id_AM = cursor.fetchone()
 
+                cursor.execute(f'SELECT id, date FROM PM WHERE res_id = {info[0]}')
+                id_PM = cursor.fetchone()
+
+                if id_AM is not None:
+                    reserve_widgets = PendingCard(res_id=info[0], q_number=id_AM[0], time_pick='AM', date=id_AM[1])
+                    self.ids.content.add_widget(reserve_widgets)
+
+                elif id_PM is not None:
+                    reserve_widgets = PendingCard(res_id=info[0], q_number=id_PM[0], time_pick="PM", date=id_PM[1])
+                    self.ids.content.add_widget(reserve_widgets)
+
+            conn.close()
         asynckivy.start(on_enter())
 
     def store_direct(self):
+        res_id = []
         conn = sqlite3.connect('./assets/data/app_data.db')
         cursor = conn.cursor()
 
@@ -65,12 +143,15 @@ class Pending(Screen):
 
         cursor.execute('CREATE TABLE IF NOT EXISTS pending(id integer unique primary key autoincrement, usr_id, '
                        'product_id, name, price, count, category, date)')
-        cursor.execute(f'SELECT * FROM pending WHERE usr_id = {uid[0]}')
+        cursor.execute(f'SELECT res_id FROM pending WHERE usr_id = {uid[0]}')
 
         rows = cursor.fetchall()
         conn.close()
+        for i in rows:
+            if i not in res_id:
+                res_id.append(i)
 
-        return rows  # data_items
+        return res_id  # data_items
 
     def on_leave(self, *args):
         self.ids.content.clear_widgets()
