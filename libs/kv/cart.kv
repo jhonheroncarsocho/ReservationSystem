@@ -53,6 +53,41 @@
                 root.delete_item()
 
 
+<IconListItem>
+
+    IconLeftWidget:
+        icon: root.icon
+
+<ConfirmDialog>
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: "200dp"
+
+    MDIconButton:
+        icon: 'calendar'
+        on_release:  root.show_date_picker()
+
+    MDTextField:
+        id: field
+        pos_hint: {'center_x': .5, 'center_y': .6}
+        size_hint_x: None
+        width: "200dp"
+        hint_text: "Select Time"
+        on_focus: if self.focus: root.menu.open()
+
+    MDBoxLayout:
+        MDFlatButton:
+            text: 'Confirm'
+            on_release:
+                root.save_items()
+
+        MDFlatButton:
+            text: 'Cancel'
+
+
+
+
 <Cart>
     name: 'cart'
     BoxLayout:
@@ -66,13 +101,26 @@
             md_bg_color: rgba('#FEDBD0')
             specific_text_color: rgba('#442c2e')
             right_action_items: [['upload', lambda x: root.date_pick() ]]
-            
-        ScrollView:
-            MDGridLayout:
-                id: content
 
-                adaptive_height: True
-                cols: 3
-                padding: '25dp'
-                spacing: '15dp'
+        RelativeLayout:
+            ScrollView:
+                MDGridLayout:
+                    id: content
+                    adaptive_height: True
+                    cols: 3
+                    padding: '25dp'
+                    spacing: '15dp'
 
+            MDRaisedButton:
+                #text: '[font=assets/fonts/Rubik/Rubik-Medium.ttf]    Confirm order    [/font]']
+                text: '        Confirm Order        '
+                markup: True
+                font_name: "assets/fonts/Rubik/Rubik-Light.ttf"
+                font_style: 'Button'
+                font_size: '15sp'
+                theme_text_color: 'Custom'
+                elevation: 20
+                text_color: rgba('#442c2e')
+                md_bg_color: rgba('#FEDBD0')
+                pos_hint: {'center_x': .5, 'center_y': .1}
+                on_release: root.show_confirmation_dialog()

@@ -4,11 +4,8 @@
     <list default="true" id="73f12ca0-3075-4918-8e59-abafe9fd1afc" name="Default Changelist" comment="merged from tickets project">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/data/app_data.db" beforeDir="false" afterPath="$PROJECT_DIR$/assets/data/app_data.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/baseclass/register.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/baseclass/register.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/kv/nav_screen.kv" beforeDir="false" afterPath="$PROJECT_DIR$/libs/kv/nav_screen.kv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/kv/register.kv" beforeDir="false" afterPath="$PROJECT_DIR$/libs/kv/register.kv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.kv" beforeDir="false" afterPath="$PROJECT_DIR$/main.kv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/baseclass/cart.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/baseclass/cart.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/kv/cart.kv" beforeDir="false" afterPath="$PROJECT_DIR$/libs/kv/cart.kv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,10 +38,11 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/baseclass" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Jhon Heron Carsocho\Desktop\DSAProject\ReservationSystem\assets\images" />
       <recent name="C:\Users\Jhon Heron Carsocho\Desktop\DSAProject\ReservationSystem\libs\baseclass" />
       <recent name="C:\Users\Jhon Heron Carsocho\Desktop\DSAProject\ReservationSystem\libs\kv" />
     </key>
@@ -136,7 +134,35 @@
       <option name="project" value="LOCAL" />
       <updated>1622924461533</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="added register">
+      <created>1623003473782</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1623003473782</updated>
+    </task>
+    <task id="LOCAL-00009" summary="added date picker">
+      <created>1623006427305</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1623006427305</updated>
+    </task>
+    <task id="LOCAL-00010" summary="update">
+      <created>1623380356181</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1623380356181</updated>
+    </task>
+    <task id="LOCAL-00011" summary="added queuing">
+      <created>1623395819638</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1623395819638</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -146,6 +172,10 @@
     <MESSAGE value="add delete item function" />
     <MESSAGE value="added login system" />
     <MESSAGE value="added pending" />
-    <option name="LAST_COMMIT_MESSAGE" value="added pending" />
+    <MESSAGE value="added register" />
+    <MESSAGE value="added date picker" />
+    <MESSAGE value="update" />
+    <MESSAGE value="added queuing" />
+    <option name="LAST_COMMIT_MESSAGE" value="added queuing" />
   </component>
 </project>
