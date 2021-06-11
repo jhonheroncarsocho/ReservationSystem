@@ -1,5 +1,6 @@
 import sqlite3
 import datetime
+import random
 from kivymd.app import MDApp
 from kivymd.uix.card import MDCard
 from kivy.properties import StringProperty, NumericProperty
@@ -106,17 +107,29 @@ class Cart(Screen):
         cursor.execute(f'SELECT * FROM cart WHERE usr_id = {uid[0]}')
         rows = cursor.fetchall()
         cursor.execute('CREATE TABLE IF NOT EXISTS pending(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, usr_id, '
-                       'product_id, name, price, count, size, date)')
+                       'product_id, name, price, count, size, date, res_id)')
+
+        res_id = ''
+        for i in range(10):
+            res_id = res_id + str(random.randint(0, 9))
+        print(res_id)
 
         for row in rows:
-            insert = 'INSERT INTO pending(usr_id, product_id, name, price, count, size, date) ' \
-                     'VALUES (?,?,?,?,?,?,?)'
-            cursor.execute(insert, (row[1], row[2], row[3], row[4], row[6], row[7], value,))
+            insert = 'INSERT INTO pending(usr_id, product_id, name, price, count, size, date, res_id) ' \
+                     'VALUES (?,?,?,?,?,?,?,?)'
+            cursor.execute(insert, (row[1], row[2], row[3], row[4], row[6], row[7], value, res_id))
             conn.commit()
 
         cursor.execute(f'DELETE from cart WHERE usr_id = {uid[0]}')
         conn.commit()
+        cursor.close()
         conn.close()
+        conn = sqlite3.connect(f'./assets/data/queue_{datetime.date.today()}.db')
+        cursor = conn.cursor()
+        cursor.execute(f'CREATE TABLE IF NOT EXISTS AM(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,  res_id)')
+        cursor.execute(f'CREATE TABLE IF NOT EXISTS PM(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,  res_id)')
+        
+
         self.ids.content.clear_widgets()
 
     def on_cancel(self, instance, value):
