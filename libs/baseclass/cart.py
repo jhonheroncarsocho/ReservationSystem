@@ -7,15 +7,14 @@ from kivymd.uix.card import MDCard
 from kivy.metrics import dp
 from kivymd.uix.list import OneLineIconListItem
 from kivy.properties import StringProperty, NumericProperty
-from kivy.uix.modalview import ModalView
+from kivy.factory import Factory
+from kivymd_extensions.akivymd.uix.dialogs import AKAlertDialog
 from kivy.uix.screenmanager import Screen
 from kivy.lang.builder import Builder
 from kivymd.utils import asynckivy
-from kivymd.uix.floatlayout import MDFloatLayout
-from kivymd.uix.list import OneLineListItem
-from kivymd.uix.tab import MDTabsBase
+from kivy.utils import get_color_from_hex
 from kivymd.uix.picker import MDDatePicker
-from kivy.clock import Clock
+from kivymd.uix.snackbar import Snackbar
 from kivymd.uix.dialog import MDDialog
 from kivy.uix.boxlayout import BoxLayout
 
@@ -32,6 +31,7 @@ class CartCard(MDCard):
     icon = StringProperty()
     title = StringProperty()
     count = NumericProperty(0)
+    size_item = StringProperty()
     category = StringProperty('')
 
     def update(self):
@@ -52,9 +52,11 @@ class CartCard(MDCard):
         conn.commit()
         conn.close()
         self.parent.remove_widget(self)
+        Snackbar(text='Item is deleted').open()
 
 class IconListItem(OneLineIconListItem):
-    icon = StringProperty('calendar')
+    icon = StringProperty('weather-sunny')
+
 
 class ConfirmDialog(BoxLayout):
     selected_date = StringProperty('')
@@ -135,6 +137,18 @@ class ConfirmDialog(BoxLayout):
             conn.commit()
             conn.close()
 
+            self.success()
+
+    def success(self):
+        dialog = AKAlertDialog(
+            header_icon="check-circle-outline", header_bg=get_color_from_hex('#FEDBD0'),
+        )
+        content = Factory.SuccessDialog()
+        content.ids.button.bind(on_release=dialog.dismiss)
+        dialog.content_cls = content
+        dialog.open()
+
+
 class Cart(Screen):
     dialog = None
 
@@ -153,7 +167,6 @@ class Cart(Screen):
         self.dialog.open()
 
     def on_enter(self, *args):
-        self.get.product_category = 'Book'
         data_items = self.store_direct()
 
         async def on_enter():
@@ -161,7 +174,7 @@ class Cart(Screen):
                 await asynckivy.sleep(0)
 
                 reserve_widgets = CartCard(index=info[0], product_id=info[2], name=info[3], price=info[4],
-                                           stocks=info[5], count=info[6], category=info[7])
+                                           stocks=info[5], count=info[6], size_item=info[7], category=info[8])
 
                 self.ids.content.add_widget(reserve_widgets)
 
@@ -176,7 +189,7 @@ class Cart(Screen):
         uid = cursor.fetchone()
 
         cursor.execute('CREATE TABLE IF NOT EXISTS cart(id integer unique primary key autoincrement, usr_id, '
-                       'product_id, name, price, stocks, count, size)')
+                       'product_id, name, price, stocks, count, size, category)')
         cursor.execute(f'SELECT * FROM cart WHERE usr_id = {uid[0]}')
 
         rows = cursor.fetchall()
@@ -186,47 +199,6 @@ class Cart(Screen):
 
         return data_items  # data_items
 
-    # def date_pick(self):
-    #     date_dialog = MDDatePicker(min_date=datetime.date.today(),
-    #                                max_date=datetime.datetime.strptime("2025:05:30", '%Y:%m:%d').date(), )
-    #     date_dialog.bind(on_save=self.on_save, on_cancel=self.on_cancel)
-    #     date_dialog.open()
-    #
-    # def on_save(self, instance, value, date_range):
-    #     conn = sqlite3.connect('./assets/data/app_data.db')
-    #     cursor = conn.cursor()
-    #     cursor.execute(f'SELECT id FROM accounts WHERE status ="active"')
-    #     uid = cursor.fetchone()
-    #
-    #     cursor.execute(f'SELECT * FROM cart WHERE usr_id = {uid[0]}')
-    #     rows = cursor.fetchall()
-    #     cursor.execute('CREATE TABLE IF NOT EXISTS pending(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, usr_id, '
-    #                    'product_id, name, price, count, size, date, res_id)')
-    #
-    #     res_id = ''
-    #     for i in range(10):
-    #         res_id = res_id + str(random.randint(0, 9))
-    #     print(res_id)
-    #
-    #     for row in rows:
-    #         insert = 'INSERT INTO pending(usr_id, product_id, name, price, count, size, date, res_id) ' \
-    #                  'VALUES (?,?,?,?,?,?,?,?)'
-    #         cursor.execute(insert, (row[1], row[2], row[3], row[4], row[6], row[7], value, res_id))
-    #         conn.commit()
-    #
-    #     cursor.execute(f'DELETE from cart WHERE usr_id = {uid[0]}')
-    #     conn.commit()
-    #     cursor.close()
-    #     conn.close()
-    #     conn = sqlite3.connect(f'./assets/data/queue_{datetime.date.today()}.db')
-    #     cursor = conn.cursor()
-    #     cursor.execute(f'CREATE TABLE IF NOT EXISTS AM(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,  res_id)')
-    #     cursor.execute(f'CREATE TABLE IF NOT EXISTS PM(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,  res_id)')
-    #
-    #     self.ids.content.clear_widgets()
-    #
-    # def on_cancel(self, instance, value):
-    #     instance.dismiss()
 
     def on_leave(self, *args):
         self.ids.content.clear_widgets()

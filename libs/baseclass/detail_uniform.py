@@ -6,7 +6,6 @@ from kivy.properties import StringProperty, NumericProperty
 from kivy.uix.screenmanager import Screen
 from kivy.uix.modalview import ModalView
 from kivy.lang.builder import Builder
-from kivy.clock import Clock
 
 Builder.load_file('./libs/kv/detail_uniform.kv')
 

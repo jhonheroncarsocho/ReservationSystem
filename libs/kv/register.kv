@@ -5,72 +5,71 @@
     usr_pass1: usr_pass1
     usr_pass2: usr_pass2
 
-    canvas:
-        Color:
-            rgba: 0/255, 139/255, 139/255, 1
-        Rectangle:
-            pos: self.pos
-            size: self.size
+    BoxLayout:
+        FloatLayout:
+            Image:
+                source: 'assets/images/bg_login.png'
+                pos: 300, 0
 
-    FloatLayout:
-        Image:
-            source: './assets/LOGO.png'
-            size_hint: .4, .30
-            pos_hint: {'center_x': .5, 'center_y': .85}
+    BoxLayout:
+        orientation: 'vertical'
 
-        MDTextField:
-            id: usr_name
-            hint_text: 'Name'
-            multiline: False
-            write_tab: False
-            color_mode: 'custom'
-            line_color_focus: 1,1,1,1
-            size_hint: .6, .1
-            pos_hint:{'center_x': .5, 'center_y': .65}
+        FloatLayout:
+            MDLabel:
+                text: '[font=assets/fonts/Rubik/Rubik-Light.ttf]Create your\n  account here![/font]'
+                markup: True
+                font_style: 'H2'
+                halign: 'center'
+                pos_hint: {'center_x': .15, 'center_y': .85}
+            MDTextField:
+                id: usr_name
+                hint_text: 'Name'
+                color_mode: 'custom'
+                line_color_focus: rgba('#442c2e')
+                mode: 'rectangle'
+                size_hint_x: .3
+                pos_hint: {'center_x': .2, 'center_y': .7}
 
-        MDTextField:
-            id: usr_email
-            hint_text: 'Email'
-            multiline: False
-            write_tab: False
-            color_mode: 'custom'
-            line_color_focus: 1,1,1,1
-            size_hint: .6, .1
-            pos_hint:{'center_x': .5, 'center_y': .55}
+            MDTextField:
+                id: usr_email
+                hint_text: 'Email'
+                color_mode: 'custom'
+                line_color_focus: rgba('#442c2e')
+                mode: 'rectangle'
+                size_hint_x: .3
+                pos_hint: {'center_x': .2, 'center_y': .6}
 
-        MDTextField:
-            id: usr_pass1
-            hint_text: 'Password'
-            multiline: False
-            write_tab: False
-            password: True
-            color_mode: 'custom'
-            line_color_focus: 1,1,1,1
-            size_hint: .6, .1
-            pos_hint:{'center_x': .5, 'center_y': .45}
+            MDTextField:
+                id: usr_pass1
+                hint_text: 'Password'
+                password: True
+                password_mask: '•'
+                color_mode: 'custom'
+                line_color_focus: rgba('#442c2e')
+                mode: 'rectangle'
+                size_hint_x: .3
+                pos_hint: {'center_x': .2, 'center_y': .5}
 
-        MDTextField:
-            id: usr_pass2
-            hint_text: 'Confirm Password'
-            multiline: False
-            write_tab: False
-            password: True
-            color_mode: 'custom'
-            line_color_focus: 1,1,1,1
-            size_hint: .6, .1
-            pos_hint:{'center_x': .5, 'center_y': .35}
+            MDTextField:
+                id: usr_pass2
+                hint_text: 'Confirm Password'
+                password_mask: '•'
+                password: True
+                color_mode: 'custom'
+                line_color_focus: rgba('#442c2e')
+                mode: 'rectangle'
+                size_hint_x: .3
+                pos_hint: {'center_x': .2, 'center_y': .4}
 
-        MDFillRoundFlatButton:
-            text:'Sign Up'
-            markup: True
-            md_bg_color: 0/255,206/255,209/255, 1
-            size_hint: .3, .08
-            pos_hint: {'center_x': .5, 'center_y': .25}
-            on_release: if root.register() is True: app.root.current = 'login'
+            MDFillRoundFlatButton:
+                text:'[font=assets/fonts/Rubik/Rubik-Light.ttf][color=#442c2e][b]                    Sign Up                    [/b][/color][/font]'
+                markup: True
+                md_bg_color: rgba('#FEDBD0')
+                pos_hint: {'center_x': .2, 'center_y': .3}
+                on_release: if root.register() is True: app.root.current = 'login'
 
-        MDTextButton:
-            text: '[color=#A9A9A9][b]or Log in[/b][/color]'
-            markup: True
-            pos_hint: {'center_x': .5, 'center_y': .15}
-            size_hint: .2, .05
-            on_release: app.root.current = 'login'
+            MDTextButton:
+                text: "[font=assets/fonts/Rubik/Rubik-Light.ttf][color=#A9A9A9]Already have an account?[/color][color=#442c2e][u] Sign In[/u][/color][/font]"
+                markup: True
+                pos_hint: {'center_x': .2, 'center_y': .25}
+                on_release: app.root.current = 'login'

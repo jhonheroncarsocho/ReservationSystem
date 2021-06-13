@@ -12,7 +12,7 @@
             anchor_x: 'center'
 
             FitImage:
-                source: f'assets/images/Book{root.product_id}.png'
+                source: f'assets/images/{root.category}{root.product_id}.png'
                 size_hint_y: 1
                 pos_hint: {"top": 1}
                 radius: [20, 20, 0, 0, ]
@@ -46,8 +46,8 @@
 
         MDIconButton:
             icon: 'trash-can-outline'
-            icon_color: rgba('#442c2e')
-            #md_bg_color: rgba('#FEDBD0')
+            theme_text_color: 'Custom'
+            text_color: rgba('#442c2e')
             pos_hint: {'center_x': .9, 'center_y': .3}
             on_press:
                 root.delete_item()
@@ -56,7 +56,7 @@
 <IconListItem>
 
     IconLeftWidget:
-        icon: root.icon
+        icon: 'weather-sunny'
 
 <ConfirmDialog>
     orientation: "vertical"
@@ -64,27 +64,36 @@
     size_hint_y: None
     height: "200dp"
 
-    MDIconButton:
-        icon: 'calendar'
-        on_release:  root.show_date_picker()
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: '40sp'
+        MDRaisedButton:
+            text: 'Open Calendar'
+            md_bg_color: rgba('#FEDBD0')
+            theme_text_color: 'Custom'
+            text_color: rgba('#442c2e')
+            pos_hint: {'center_x': .5, 'center_y': .7}
+            on_release:  root.show_date_picker()
 
-    MDTextField:
-        id: field
-        pos_hint: {'center_x': .5, 'center_y': .6}
-        size_hint_x: None
-        width: "200dp"
-        hint_text: "Select Time"
-        on_focus: if self.focus: root.menu.open()
+        MDTextField:
+            id: field
+            pos_hint: {'center_x': .5}
+            size_hint_x: None
+            width: "200dp"
+            hint_text: "Select Time"
+            on_focus: if self.focus: root.menu.open()
 
-    MDBoxLayout:
-        MDFlatButton:
-            text: 'Confirm'
-            on_release:
-                root.save_items()
+    MDRaisedButton:
+        elevation: 15
+        text: 'Confirm'
+        md_bg_color: rgba('#FEDBD0')
+        theme_text_color: 'Custom'
+        text_color: rgba('#442c2e')
+        pos_hint: {'center_x': .9}
+        on_release:
+            root.save_items()
 
-        MDFlatButton:
-            text: 'Cancel'
-            on_release:
+
 
 <Cart>
     name: 'cart'
@@ -98,7 +107,6 @@
             elevation: 10
             md_bg_color: rgba('#FEDBD0')
             specific_text_color: rgba('#442c2e')
-            right_action_items: [['upload', lambda x: root.date_pick() ]]
 
         RelativeLayout:
             ScrollView:
@@ -109,16 +117,50 @@
                     padding: '25dp'
                     spacing: '15dp'
 
-            MDRaisedButton:
-                #text: '[font=assets/fonts/Rubik/Rubik-Medium.ttf]    Confirm order    [/font]']
+            MDFillRoundFlatIconButton:
+                icon: 'cart'
+                icon_color: rgba('#442c2e')
                 text: '        Confirm Order        '
                 markup: True
                 font_name: "assets/fonts/Rubik/Rubik-Light.ttf"
                 font_style: 'Button'
                 font_size: '15sp'
                 theme_text_color: 'Custom'
-                elevation: 20
                 text_color: rgba('#442c2e')
                 md_bg_color: rgba('#FEDBD0')
                 pos_hint: {'center_x': .5, 'center_y': .1}
                 on_release: root.show_confirmation_dialog()
+
+
+
+<SuccessDialog@BoxLayout>:
+    orientation: "vertical"
+    padding: dp(40)
+    MDLabel:
+        text: "[font=assets/fonts/Rubik/Rubik-Medium.ttf]Successful![/font]"
+        markup: True
+        size_hint_y: None
+        height: self.texture_size[1]
+        halign: "center"
+        valign: "center"
+        bold: True
+        theme_text_color: "Custom"
+        text_color: rgba('#442c2e')
+
+    MDLabel:
+        text: "[font=assets/fonts/Rubik/Rubik-Light.ttf]Your order is now ready[/font]"
+        markup: True
+        halign: "center"
+        valign: "top"
+        theme_text_color: "Custom"
+        text_color: rgba('#442c2e')
+
+
+    MDFillRoundFlatButton:
+        id: button
+        text: "[font=assets/fonts/Rubik/Rubik-Light.ttf]Confirm[/font]"
+        markup: True
+        theme_text_color: 'Custom'
+        text_color: rgba('#442c2e')
+        md_bg_color: rgba('#FEDBD0')
+        pos_hint: {"center_x": .5}

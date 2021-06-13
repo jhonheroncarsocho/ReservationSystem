@@ -1,12 +1,8 @@
 import sqlite3
 from kivy.config import Config
 from kivymd.app import MDApp
-from kivy.clock import Clock
-from kivymd.utils import asynckivy
 from kivy.lang.builder import Builder
-from kivy.core.window import Window
-from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import ListProperty, StringProperty, ObjectProperty, NumericProperty
+from kivy.properties import StringProperty, NumericProperty
 from libs.baseclass import nav_screen, store, uniforms, books, cart, login, pending, register, uniforms2
 
 
@@ -14,7 +10,7 @@ class MyApp(MDApp):
     product_category = StringProperty()
     log_usr = StringProperty()
     product_index = NumericProperty()
-    selected = StringProperty()
+    selected = StringProperty('')
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

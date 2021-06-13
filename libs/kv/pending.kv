@@ -2,39 +2,62 @@
     orientation: "vertical"
     size_hint: None, None
     size: "300dp", "200dp"
-    radius: [20,]
-
+    canvas:
+        Color:
+            rgba: rgba('#FEDBD0')
+        Rectangle:
+            pos: self.pos
+            size: self.size
     MDBoxLayout:
         orientation: "vertical"
-        cols: 2
+
         MDBoxLayout:
+            orientation: 'vertical'
             MDLabel:
                 text: "Reservation ID: " + root.res_id
-        MDBoxLayout:
+                font_name: 'assets/fonts/Rubik/Rubik-Light.ttf'
+                font_style: 'Button'
+                padding_x: dp(20)
+                padding_y: dp(20)
             MDLabel:
                 text: "Date: " + root.date
-        MDBoxLayout:
+                font_name: 'assets/fonts/Rubik/Rubik-Light.ttf'
+                font_style: 'Button'
+                padding_x: dp(20)
+
             MDLabel:
                 text: "Time: " + root.time_pick
-        MDBoxLayout:
+                font_name: 'assets/fonts/Rubik/Rubik-Light.ttf'
+                font_style: 'Button'
+                padding_x: dp(20)
+
             MDLabel:
-                text: "Your Number: " + str(root.q_number)
+                text: "Your ticket no.: " + str(root.q_number)
+                font_name: 'assets/fonts/Rubik/Rubik-Light.ttf'
+                font_style: 'Button'
+                padding_x: dp(20)
 
-        MDBoxLayout:
-            AnchorLayout:
-                anchor_x: 'center'
+        BoxLayout:
+            spacing: '80sp'
+            padding_x: dp(20)
+            MDTextButton:
+                pos_hint: {'center_y': .2, 'center_x': .1}
+                text: '[font=assets/fonts/Rubik/Rubik-Light.ttf]Cancel Order[/font]'
+                markup: True
+                theme_text_color: "Custom"
+                text_color: rgba('#442c2e')
+                on_release:
+                    root.delete_item()
 
-                MDFlatButton:
-                    text: 'Cancel'
-                    on_release:
-                        root.delete_item()
+            MDRectangleFlatButton:
+                text: '[font=assets/fonts/Rubik/Rubik-Light.ttf]View Receipt[/font]'
+                markup: True
+                theme_text_color: "Custom"
+                text_color: rgba('#442c2e')
+                line_color: rgba('#442c2e')
 
-            AnchorLayout:
-                anchor_x: 'center'
-                MDFlatButton:
-                    text: 'View Receipt'
-                    on_release:
-                        root.view_receipt()
+                on_release:
+                    root.view_receipt()
 
 <ReceiptCard>
     orientation: "vertical"
@@ -46,11 +69,20 @@
         orientation: 'horizontal'
         cols: 3
         MDLabel:
-            text: str(root.name) + f' {root.size_uniform}'
+            size_hint: 1, .2
+            text: str(root.name)
+
+        MDLabel:
+            text: f' {root.size_uniform}'
+            size_hint: .3, .2
+
         MDLabel:
             text: str(root.count)
+            size_hint: .3, .2
+
         MDLabel:
             text: str(root.price)
+            size_hint: .2, .2
 
 
 <ViewReceipt>
@@ -62,34 +94,60 @@
         Rectangle:
             pos: self.pos
             size: self.size
+
     MDBoxLayout:
         orientation: 'vertical'
         size_hint: 1,1
         cols: 1
 
         MDBoxLayout:
-            size_hint: 1, .2
+            spacing: '20sp'
             MDLabel:
                 text: 'Product Name'
+                font_name: 'assets/fonts/Rubik/Rubik-Light.ttf'
+                font_style: 'Button'
+                padding_x: dp(20)
+
             MDLabel:
-                text: 'Count'
+                text: ''
+                font_name: 'assets/fonts/Rubik/Rubik-Light.ttf'
+                font_style: 'Button'
+
+            MDLabel:
+                text: 'Quantity'
+                font_name: 'assets/fonts/Rubik/Rubik-Light.ttf'
+                font_style: 'Button'
+                size_hint_x: .5
+
             MDLabel:
                 text: 'Price'
-        MDBoxLayout:
-            cols: 1
+                font_name: 'assets/fonts/Rubik/Rubik-Light.ttf'
+                font_style: 'Button'
+                size_hint_x: .5
+
+        BoxLayout:
             ScrollView:
+
                 MDGridLayout:
+                    padding: [20,]
+                    spacing: '20sp'
                     adaptive_height: True
                     id: dialog_content
                     cols: 1
-        MDBoxLayout:
-            size_hint: 1, .2
-            MDLabel:
-                text: ''
+        BoxLayout:
+            spacing: '20sp'
+
             MDLabel:
                 text: 'Total'
+                halign: 'center'
+                font_name: 'assets/fonts/Rubik/Rubik-Light.ttf'
+                font_style: 'Button'
+                padding_x: dp(20)
+
             MDLabel:
                 text: str(root.total_price)
+                font_name: 'assets/fonts/Rubik/Rubik-Light.ttf'
+                font_style: 'Button'
 
 <Pending>
     name: 'cart'
@@ -106,7 +164,6 @@
         ScrollView:
             MDGridLayout:
                 id: content
-
                 adaptive_height: True
                 cols: 3
                 padding: '25dp'

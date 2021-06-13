@@ -1,19 +1,15 @@
 import sqlite3
 from kivymd.app import MDApp
 from kivymd.uix.card import MDCard
-from kivy.properties import StringProperty, NumericProperty, ListProperty, ObjectProperty
-from kivy.uix.modalview import ModalView
+from kivy.properties import StringProperty, NumericProperty, ListProperty
 from kivy.uix.screenmanager import Screen
 from kivy.lang.builder import Builder
 from kivymd.utils import asynckivy
 from kivymd.theming import ThemableBehavior
 from kivymd.uix.behaviors import MagicBehavior
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.floatlayout import MDFloatLayout
-from kivymd.uix.tab import MDTabsBase
 from kivy.utils import get_color_from_hex
 from kivymd.color_definitions import colors
-from kivy.clock import Clock
 
 
 Builder.load_file('./libs/kv/uniforms.kv')
@@ -28,6 +24,7 @@ class UniformCard(MDCard):
     icon = StringProperty()
     title = StringProperty()
     count = NumericProperty(0)
+    category = StringProperty()
 
     def to_cart(self):
         get = MDApp.get_running_app()
@@ -38,29 +35,33 @@ class UniformCard(MDCard):
         cursor.execute(f'SELECT id FROM accounts WHERE status = "active"')
         uid = cursor.fetchone()
         cursor.execute('CREATE TABLE IF NOT EXISTS cart(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, usr_id, '
-                       'product_id, name, price, stocks, count, size)')
+                       'product_id, name, price, stocks, count, size, category)')
         cursor.execute(f'SELECT * FROM cart where product_id = {self.index} and usr_id = {uid[0]} and '
                        f'size = "{get.selected}"')
         get_product = cursor.fetchone()
-        if get_product is None:
-            insert = 'INSERT INTO cart (usr_id, product_id, name, price, stocks, count, size) ' \
-                     'VALUES (?,?,?,?,?,?,?)'
-            cursor.execute(insert, (uid[0], self.index, self.name, self.price,  self.stocks, 1, get.selected))
-        else:
-            if get_product[7] == get.selected:
-                cursor.execute(f'SELECT count FROM cart WHERE product_id = {self.index} and size = "{get.selected}"')
-                get_count = cursor.fetchone()
-                if get_count[0] != self.stocks:
-
-                    cursor.execute(f'UPDATE cart SET count = {get_count[0] + 1} WHERE product_id = {self.index} '
-                                   f'and usr_id = {uid[0]} and size = "{get.selected}"')
+        print(get.selected)
+        if get.selected != '':
+            if get_product is None:
+                insert = 'INSERT INTO cart (usr_id, product_id, name, price, stocks, count, size, category) ' \
+                         'VALUES (?,?,?,?,?,?,?,?)'
+                cursor.execute(insert, (uid[0], self.index, self.name, self.price,  self.stocks, 1, get.selected, self.category))
             else:
-                insert = 'INSERT INTO cart (usr_id, product_id, name, price, stocks, count, size) ' \
-                         'VALUES (?,?,?,?,?,?,?)'
-                cursor.execute(insert, (uid[0], self.index, self.name, self.price, self.stocks, 1, get.selected))
+                if get_product[7] == get.selected:
+                    cursor.execute(f'SELECT count FROM cart WHERE product_id = {self.index} and size = "{get.selected}"')
+                    get_count = cursor.fetchone()
+                    if get_count[0] != self.stocks:
 
-        conn.commit()
-        conn.close()
+                        cursor.execute(f'UPDATE cart SET count = {get_count[0] + 1} WHERE product_id = {self.index} '
+                                       f'and usr_id = {uid[0]} and size = "{get.selected}"')
+                else:
+                    insert = 'INSERT INTO cart (usr_id, product_id, name, price, stocks, count, size, category) ' \
+                             'VALUES (?,?,?,?,?,?,?,?)'
+                    cursor.execute(insert, (uid[0], self.index, self.name, self.price, self.stocks, 1, get.selected, self.category))
+
+            conn.commit()
+            conn.close()
+        get.selected = ''
+
 
 class PlanItem(ThemableBehavior, MagicBehavior, MDBoxLayout):
     text_item = StringProperty()
@@ -97,7 +98,7 @@ class Uniforms(Screen):
             for info in data_items:
                 await asynckivy.sleep(0)
 
-                store_widgets = UniformCard(index=info[0], name=info[1], price=info[2], stocks=info[3])
+                store_widgets = UniformCard(index=info[0], name=info[1], price=info[2], stocks=info[3], category=info[4])
 
                 self.ids.content.add_widget(store_widgets)
 
@@ -121,3 +122,4 @@ class Uniforms(Screen):
 
     def on_leave(self, *args):
         self.ids.content.clear_widgets()
+        print('test')

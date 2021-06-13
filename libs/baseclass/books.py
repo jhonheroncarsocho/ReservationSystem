@@ -2,13 +2,10 @@ import sqlite3
 from kivymd.app import MDApp
 from kivymd.uix.card import MDCard
 from kivy.properties import StringProperty, NumericProperty
-from kivy.uix.modalview import ModalView
 from kivy.uix.screenmanager import Screen
 from kivy.lang.builder import Builder
 from kivymd.utils import asynckivy
-from kivymd.uix.floatlayout import MDFloatLayout
-from kivymd.uix.tab import MDTabsBase
-from kivy.clock import Clock
+from kivymd.uix.snackbar import Snackbar
 
 
 Builder.load_file('./libs/kv/books.kv')
@@ -22,6 +19,7 @@ class BookCard(MDCard):
     price = StringProperty('')
     icon = StringProperty()
     title = StringProperty()
+    category = StringProperty()
 
     def to_cart(self):
         conn = sqlite3.connect('./assets/data/app_data.db')
@@ -30,13 +28,13 @@ class BookCard(MDCard):
         cursor.execute(f'SELECT id FROM accounts WHERE status = "active"')
         uid = cursor.fetchone()
         cursor.execute('CREATE TABLE IF NOT EXISTS cart(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, usr_id, '
-                       'product_id, name, price, stocks, count, size)')
+                       'product_id, name, price, stocks, count, size, category)')
         cursor.execute(f'SELECT * FROM cart where product_id = {self.index} and usr_id = {uid[0]}')
         get_product = cursor.fetchone()
         if get_product is None:
-            insert = 'INSERT INTO cart (usr_id, product_id, name, price, stocks, count, size) ' \
-                     'VALUES (?,?,?,?,?,?,?)'
-            cursor.execute(insert, (uid[0], self.index, self.name, self.price,  self.stocks, 1, ''))
+            insert = 'INSERT INTO cart (usr_id, product_id, name, price, stocks, count, size, category) ' \
+                     'VALUES (?,?,?,?,?,?,?,?)'
+            cursor.execute(insert, (uid[0], self.index, self.name, self.price,  self.stocks, 1, '', self.category))
         else:
             cursor.execute(f'SELECT count FROM cart WHERE product_id = {self.index}')
             get_count = cursor.fetchone()
@@ -46,6 +44,7 @@ class BookCard(MDCard):
                                f'and usr_id = {uid[0]}')
         conn.commit()
         conn.close()
+        Snackbar(text='Item is added to cart').open()
 
 
 class Books(Screen):
@@ -61,7 +60,7 @@ class Books(Screen):
         async def on_enter():
             for info in data_items:
                 await asynckivy.sleep(0)
-                store_widgets = BookCard(index=info[0], name=info[1], price=info[2], stocks=info[3])
+                store_widgets = BookCard(index=info[0], name=info[1], price=info[2], stocks=info[3], category=info[4])
                 
                 self.ids.content.add_widget(store_widgets)
 
