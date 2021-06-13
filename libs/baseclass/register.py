@@ -12,22 +12,30 @@ class Register(Screen):
     usr_pass2 = ObjectProperty(None)
 
     def register(self):
-        if self.usr_pass1.text == self.usr_pass2.text:
-            conn = sqlite3.connect('./assets/data/app_data.db')
-            cursor = conn.cursor()
+        if self.usr_name.text != '' or self.usr_pass1.text != '' or self.usr_pass2.text != '' \
+                or self.usr_email.text != '':
 
-            cursor.execute('CREATE TABLE IF NOT EXISTS accounts(id integer unique primary key autoincrement, name, '
-                           'email, password, status)')
-            insert_query = 'INSERT INTO accounts (name, email, password) VALUES (?,?,?)'
-            cursor.execute(insert_query, (self.usr_name.text, self.usr_email.text, self.usr_pass1.text))
-            conn.commit()
-            conn.close()
+            if self.usr_pass1.text == self.usr_pass2.text:
+                conn = sqlite3.connect('./assets/data/app_data.db')
+                cursor = conn.cursor()
 
-            self.reset_field()
-            # manage.current = 'login'
-            return True
+                cursor.execute('CREATE TABLE IF NOT EXISTS accounts(id integer unique primary key autoincrement, name, '
+                               'email, password, status)')
+                insert_query = 'INSERT INTO accounts (name, email, password) VALUES (?,?,?)'
+                cursor.execute(insert_query, (self.usr_name.text, self.usr_email.text, self.usr_pass1.text))
+                conn.commit()
+                conn.close()
+
+                self.reset_field()
+                # manage.current = 'login'
+                return True
+            else:
+                print('Passwords not matching')
+                self.reset_field()
+
         else:
-            self.reset_field()
+            print('Invalid entry')
+            return False
 
     def reset_field(self):
         self.usr_name.text = ''

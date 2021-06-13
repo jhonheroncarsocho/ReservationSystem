@@ -11,6 +11,7 @@ class MyApp(MDApp):
     log_usr = StringProperty()
     product_index = NumericProperty()
     selected = StringProperty('')
+    selected2 = StringProperty('')
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

@@ -11,6 +11,3 @@ class Tab(MDFloatLayout, MDTabsBase):
 class Store(Screen):
     def __init__(self, **kwargs):
         super(Store, self).__init__(**kwargs)
-
-    def on_enter(self):
-        pass

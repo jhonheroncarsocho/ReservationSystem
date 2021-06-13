@@ -28,38 +28,40 @@ class UniformCard2(MDCard):
 
     def to_cart(self):
         get = MDApp.get_running_app()
+        if get.selected2 != '':
+            conn = sqlite3.connect('./assets/data/app_data.db')
+            cursor = conn.cursor()
 
-        conn = sqlite3.connect('./assets/data/app_data.db')
-        cursor = conn.cursor()
-
-        cursor.execute(f'SELECT id FROM accounts WHERE status = "active"')
-        uid = cursor.fetchone()
-        cursor.execute('CREATE TABLE IF NOT EXISTS cart(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, usr_id, '
-                       'product_id, name, price, stocks, count, size)')
-        cursor.execute(f'SELECT * FROM cart where product_id = {self.index} and usr_id = {uid[0]} and '
-                       f'size = "{get.selected}"')
-        get_product = cursor.fetchone()
-        if get.selected != '':
-            if get_product is None:
-                insert = 'INSERT INTO cart (usr_id, product_id, name, price, stocks, count, size, category) ' \
-                         'VALUES (?,?,?,?,?,?,?,?)'
-                cursor.execute(insert, (uid[0], self.index, self.name, self.price,  self.stocks, 1, get.selected, self.category))
-            else:
-                if get_product[7] == get.selected:
-                    cursor.execute(f'SELECT count FROM cart WHERE product_id = {self.index} and size = "{get.selected}"')
-                    get_count = cursor.fetchone()
-                    if get_count[0] != self.stocks:
-
-                        cursor.execute(f'UPDATE cart SET count = {get_count[0] + 1} WHERE product_id = {self.index} '
-                                       f'and usr_id = {uid[0]} and size = "{get.selected}"')
-                else:
+            cursor.execute(f'SELECT id FROM accounts WHERE status = "active"')
+            uid = cursor.fetchone()
+            cursor.execute('CREATE TABLE IF NOT EXISTS cart(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, usr_id, '
+                           'product_id, name, price, stocks, count, size)')
+            cursor.execute(f'SELECT * FROM cart where product_id = {self.index} and usr_id = {uid[0]} and '
+                           f'size = "{get.selected}"')
+            get_product = cursor.fetchone()
+            if get.selected2 != '':
+                if get_product is None:
                     insert = 'INSERT INTO cart (usr_id, product_id, name, price, stocks, count, size, category) ' \
                              'VALUES (?,?,?,?,?,?,?,?)'
-                    cursor.execute(insert, (uid[0], self.index, self.name, self.price, self.stocks, 1, get.selected, self.category))
+                    cursor.execute(insert, (uid[0], self.index, self.name, self.price,  self.stocks, 1, get.selected, self.category))
+                else:
+                    if get_product[7] == get.selected:
+                        cursor.execute(f'SELECT count FROM cart WHERE product_id = {self.index} and size = "{get.selected}"')
+                        get_count = cursor.fetchone()
+                        if get_count[0] != self.stocks:
 
-            conn.commit()
-            conn.close()
-        get.selected = ''
+                            cursor.execute(f'UPDATE cart SET count = {get_count[0] + 1} WHERE product_id = {self.index} '
+                                           f'and usr_id = {uid[0]} and size = "{get.selected}"')
+                    else:
+                        insert = 'INSERT INTO cart (usr_id, product_id, name, price, stocks, count, size, category) ' \
+                                 'VALUES (?,?,?,?,?,?,?,?)'
+                        cursor.execute(insert, (uid[0], self.index, self.name, self.price, self.stocks, 1, get.selected, self.category))
+
+                conn.commit()
+                conn.close()
+            get.selected2 = ''
+        else:
+            print('Select Size')
 
 
 class PlanItem2(ThemableBehavior, MagicBehavior, MDBoxLayout):
@@ -118,6 +120,3 @@ class Uniforms2(Screen):
         conn.close()
 
         return rows  # data_items
-
-    def on_leave(self, *args):
-        self.ids.content.clear_widgets()

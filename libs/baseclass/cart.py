@@ -17,6 +17,7 @@ from kivymd.uix.picker import MDDatePicker
 from kivymd.uix.snackbar import Snackbar
 from kivymd.uix.dialog import MDDialog
 from kivy.uix.boxlayout import BoxLayout
+from kivymd.uix.button import MDFlatButton
 
 
 Builder.load_file('./libs/kv/cart.kv')
@@ -162,7 +163,12 @@ class Cart(Screen):
             self.dialog = MDDialog(
                 title="Select Date",
                 type="custom",
-                content_cls=ConfirmDialog())
+                content_cls=ConfirmDialog(),
+                buttons=[
+                    MDFlatButton(
+                        text="CANCEL", on_release=lambda _: self.dialog.dismiss()
+                    )]
+            )
 
         self.dialog.open()
 
@@ -198,7 +204,3 @@ class Cart(Screen):
             data_items.append(row)
 
         return data_items  # data_items
-
-
-    def on_leave(self, *args):
-        self.ids.content.clear_widgets()
