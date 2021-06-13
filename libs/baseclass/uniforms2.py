@@ -83,7 +83,7 @@ class PlanItem2(ThemableBehavior, MagicBehavior, MDBoxLayout):
                 self.grow()
                 break
         instance_plan.color_select = self.primary
-        self.get.selected = instance_plan.text_item
+        self.get.selected2 = instance_plan.text_item
 
 
 class Uniforms2(Screen):
