@@ -58,6 +58,22 @@
             pos_hint: {'center_x': .55}
 
 
+<Notification3@BoxLayout>
+    padding: dp(10)
+
+    MDLabel:
+        text: '[font=assets/fonts/Rubik/Rubik-Light.ttf]1 Item is added[/font]'
+        markup: True
+        theme_text_color: "Custom"
+        text_color: rgba('#442c2e')
+        halign: "left"
+
+    MDIconButton:
+        id: button
+        icon: "close"
+        halign: "right"
+        valign: "center"
+
 <Books>
     name: 'products'
     BoxLayout:

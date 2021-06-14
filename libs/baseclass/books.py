@@ -6,6 +6,9 @@ from kivy.uix.screenmanager import Screen
 from kivy.lang.builder import Builder
 from kivymd.utils import asynckivy
 from kivymd.uix.snackbar import Snackbar
+from kivymd_extensions.akivymd.uix.dialogs import AKAlertDialog
+from kivy.factory import Factory
+from kivy.utils import get_color_from_hex
 
 
 Builder.load_file('./libs/kv/books.kv')
@@ -44,7 +47,26 @@ class BookCard(MDCard):
                                f'and usr_id = {uid[0]}')
         conn.commit()
         conn.close()
-        Snackbar(text='Item is added to cart').open()
+        self.top_center()
+
+    def top_center(self):
+        dialog = AKAlertDialog(
+            header_bg=get_color_from_hex('#FEDBD0'),
+            header_icon="bell",
+            progress_interval=5,
+            fixed_orientation="landscape",
+            pos_hint={"center_x": 0.5, "top": 0.95},
+            dialog_radius=0,
+            size_landscape=["300dp", "70dp"],
+            header_font_size="40dp",
+            header_width_landscape="50dp",
+            progress_color=[0.4, 0.1, 1, 1],
+        )
+        dialog.bind(on_progress_finish=dialog.dismiss)
+        content = Factory.Notification3()
+        content.ids.button.bind(on_release=dialog.dismiss)
+        dialog.content_cls = content
+        dialog.open()
 
 
 class Books(Screen):

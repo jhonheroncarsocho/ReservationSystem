@@ -62,5 +62,29 @@
             pos_hint: {'center_x': .75, 'center_y': .8}
 
 
+<ErrorDialog@BoxLayout>:
+    orientation: "vertical"
+    spacing: dp(10)
+    padding: dp(20)
 
+    MDLabel:
+        text: "[font=assets/fonts/Rubik/Rubik-Light.ttf]OOPPSS[/font]"
+        markup: True
+        halign: "center"
+        theme_text_color: "Custom"
+        text_color: .9, 0, 0, 1
+
+    MDLabel:
+        text: "[font=assets/fonts/Rubik/Rubik-Light.ttf]Double check your email and password[/font]"
+        markup: True
+        halign: "center"
+        theme_text_color: "Custom"
+        text_color: .9, 0, 0, 1
+        font_style: "Caption"
+
+    MDFillRoundFlatButton:
+        id: button
+        text: "Dismiss"
+        md_bg_color: .9, 0, 0, 1
+        pos_hint: {"center_x": .5}
 

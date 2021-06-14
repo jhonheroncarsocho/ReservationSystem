@@ -2,6 +2,8 @@ import sqlite3
 from kivy.properties import ObjectProperty
 from kivy.uix.screenmanager import Screen
 from kivy.lang.builder import Builder
+from kivy.factory import Factory
+from kivymd_extensions.akivymd.uix.dialogs import AKAlertDialog
 
 Builder.load_file('./libs/kv/register.kv')
 
@@ -30,11 +32,11 @@ class Register(Screen):
                 # manage.current = 'login'
                 return True
             else:
-                print('Passwords not matching')
+                self.error2()
                 self.reset_field()
 
         else:
-            print('Invalid entry')
+            self.error3()
             return False
 
     def reset_field(self):
@@ -43,3 +45,21 @@ class Register(Screen):
         self.usr_pass1.text = ''
         self.usr_pass2.text = ''
 
+    def error2(self):
+        dialog = AKAlertDialog(
+            header_icon="close-circle-outline", header_bg=[0.9, 0, 0, 1]
+        )
+        content = Factory.ErrorDialog2()
+        content.ids.button.bind(on_release=dialog.dismiss)
+        dialog.content_cls = content
+        dialog.open()
+
+    def error3(self):
+        dialog = AKAlertDialog(
+            header_icon="close-circle-outline", header_bg=[0.9, 0, 0, 1]
+        )
+        content = Factory.ErrorDialog3()
+        content.ids.button.bind(on_release=dialog.dismiss)
+        dialog.content_cls = content
+        dialog.open()
+        

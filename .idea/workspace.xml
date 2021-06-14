@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="73f12ca0-3075-4918-8e59-abafe9fd1afc" name="Default Changelist" comment="">
+    <list default="true" id="73f12ca0-3075-4918-8e59-abafe9fd1afc" name="Default Changelist" comment="connect queue function">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/data/app_data.db" beforeDir="false" afterPath="$PROJECT_DIR$/assets/data/app_data.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/baseclass/cart.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/baseclass/cart.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +28,14 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="ProjectId" id="1tF3SGIFMkNKwrh7kOT5Js6QVBs" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -37,7 +44,8 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../PCerve App/PCerve" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -168,7 +176,63 @@
       <option name="project" value="LOCAL" />
       <updated>1623398499937</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="connect queue function">
+      <created>1623399176137</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1623399176137</updated>
+    </task>
+    <task id="LOCAL-00014" summary="added receipt">
+      <created>1623427894762</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1623427894763</updated>
+    </task>
+    <task id="LOCAL-00015" summary="connect queue function">
+      <created>1623432213136</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1623432213137</updated>
+    </task>
+    <task id="LOCAL-00016" summary="added title">
+      <created>1623432369518</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1623432369518</updated>
+    </task>
+    <task id="LOCAL-00017" summary="connect queue function">
+      <created>1623585953931</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1623585953932</updated>
+    </task>
+    <task id="LOCAL-00018" summary="added error handling">
+      <created>1623592472409</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1623592472409</updated>
+    </task>
+    <task id="LOCAL-00019" summary="fixed select shit on pants">
+      <created>1623596105968</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1623596105968</updated>
+    </task>
+    <task id="LOCAL-00020" summary="fixed cart">
+      <created>1623630706830</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1623630706830</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -183,6 +247,12 @@
     <MESSAGE value="update" />
     <MESSAGE value="added queuing" />
     <MESSAGE value="configure confirm on cart" />
-    <option name="LAST_COMMIT_MESSAGE" value="configure confirm on cart" />
+    <MESSAGE value="added receipt" />
+    <MESSAGE value="added title" />
+    <MESSAGE value="connect queue function" />
+    <MESSAGE value="added error handling" />
+    <MESSAGE value="fixed select shit on pants" />
+    <MESSAGE value="fixed cart" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed cart" />
   </component>
 </project>

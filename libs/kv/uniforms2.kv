@@ -1,6 +1,39 @@
 #:import Window kivy.core.window.Window
 #:import MagicBehavior kivymd.uix.behaviors.MagicBehavior
 
+<WarningDialog@BoxLayout>
+    orientation: "vertical"
+    padding: dp(20)
+
+    MDLabel:
+        text: "[font=assets/fonts/Rubik/Rubik-Light.ttf]You need to select a size first[/font]"
+        markup: True
+        halign: "center"
+        valign: "center"
+        theme_text_color: "Custom"
+        text_color: rgba('#442c2e')
+
+    MDFillRoundFlatButton:
+        id: submit
+        text: "Okay"
+        pos_hint: {"center_x": .5}
+        md_bg_color: 1, .75, 0, 1
+
+<Notification@BoxLayout>
+    padding: dp(10)
+
+    MDLabel:
+        text: "[font=assets/fonts/Rubik/Rubik-Light.ttf]1 item is added to cart[/font]"
+        markup: True
+        theme_text_color: "Secondary"
+        halign: "left"
+
+    MDIconButton:
+        id: button
+        icon: "close"
+        halign: "right"
+        valign: "center"
+
 <PlanItem2>
     adaptive_size: True
     on_touch_down:

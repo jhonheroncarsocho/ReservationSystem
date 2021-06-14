@@ -1,4 +1,5 @@
 import sqlite3
+from kivy.factory import Factory
 from kivymd.app import MDApp
 from kivymd.uix.card import MDCard
 from kivy.properties import StringProperty, NumericProperty, ListProperty
@@ -10,6 +11,8 @@ from kivymd.uix.behaviors import MagicBehavior
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivy.utils import get_color_from_hex
 from kivymd.color_definitions import colors
+from kivymd_extensions.akivymd.uix.dialogs import AKAlertDialog
+
 
 
 Builder.load_file('./libs/kv/uniforms2.kv')
@@ -44,14 +47,16 @@ class UniformCard2(MDCard):
                     insert = 'INSERT INTO cart (usr_id, product_id, name, price, stocks, count, size, category) ' \
                              'VALUES (?,?,?,?,?,?,?,?)'
                     cursor.execute(insert, (uid[0], self.index, self.name, self.price,  self.stocks, 1, get.selected, self.category))
+                    self.bottom_right()
                 else:
                     if get_product[7] == get.selected:
                         cursor.execute(f'SELECT count FROM cart WHERE product_id = {self.index} and size = "{get.selected}"')
                         get_count = cursor.fetchone()
                         if get_count[0] != self.stocks:
-
+                            self.bottom_right()
                             cursor.execute(f'UPDATE cart SET count = {get_count[0] + 1} WHERE product_id = {self.index} '
                                            f'and usr_id = {uid[0]} and size = "{get.selected}"')
+
                     else:
                         insert = 'INSERT INTO cart (usr_id, product_id, name, price, stocks, count, size, category) ' \
                                  'VALUES (?,?,?,?,?,?,?,?)'
@@ -61,8 +66,39 @@ class UniformCard2(MDCard):
                 conn.close()
             get.selected2 = ''
         else:
+            self.warning()
             print('Select Size')
 
+    def warning(self):
+        dialog = AKAlertDialog(
+            header_icon="exclamation",
+            header_bg=[1, 0.75, 0, 1],
+            progress_interval=3,
+        )
+        dialog.bind(on_progress_finish=dialog.dismiss)
+        content = Factory.WarningDialog()
+        content.ids.submit.bind(on_release=dialog.dismiss)
+        content.bind(on_release=dialog.dismiss)
+        dialog.content_cls = content
+        dialog.open()
+
+    def bottom_right(self):
+        dialog = AKAlertDialog(
+            header_bg=get_color_from_hex('#FEDBD0'),
+            header_icon="bell",
+            progress_interval=3,
+            fixed_orientation="landscape",
+            pos_hint={"right": 1, "y": 0.05},
+            dialog_radius=0,
+            opening_duration=3,
+            size_landscape=["350dp", "70dp"],
+            header_width_landscape="70dp",
+        )
+        dialog.bind(on_progress_finish=dialog.dismiss)
+        content = Factory.Notification()
+        content.ids.button.bind(on_release=dialog.dismiss)
+        dialog.content_cls = content
+        dialog.open()
 
 class PlanItem2(ThemableBehavior, MagicBehavior, MDBoxLayout):
     text_item = StringProperty()

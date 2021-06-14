@@ -34,7 +34,7 @@ class PendingCard(MDCard):
         conn.commit()
         conn.close()
         self.parent.remove_widget(self)
-        Snackbar(text='Order is cancelled')
+        Snackbar(text='Order is cancelled').open()
 
     def view_receipt(self):
         open_receipt = ViewReceipt(res_id=self.res_id)

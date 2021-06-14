@@ -17,10 +17,11 @@ from kivymd.uix.picker import MDDatePicker
 from kivymd.uix.snackbar import Snackbar
 from kivymd.uix.dialog import MDDialog
 from kivy.uix.boxlayout import BoxLayout
-from kivymd.uix.button import MDFlatButton
+from kivymd.uix.button import MDFlatButton, MDTextButton
 
 
 Builder.load_file('./libs/kv/cart.kv')
+
 
 class CartCard(MDCard):
     index = NumericProperty()
@@ -34,6 +35,23 @@ class CartCard(MDCard):
     count = NumericProperty(0)
     size_item = StringProperty()
     category = StringProperty('')
+    dialog1 = None
+
+    def show_alert_dialog(self):
+        if not self.dialog1:
+            self.dialog1 = MDDialog(
+                text="Discard draft?",
+                buttons=[
+                    MDTextButton(
+                        text="CANCEL", on_release= lambda _:self.dialog.dismiss()
+                    ),
+                    MDFlatButton(
+                        text="Delete", text_color=get_color_from_hex('#442c2e'), md_bg_color=get_color_from_hex('#FEDBD0'),
+                        on_release=self.delete_item()
+                    ),
+                ],
+            )
+        self.dialog1.open()
 
     def update(self):
         conn = sqlite3.connect('./assets/data/app_data.db')
@@ -88,6 +106,7 @@ class ConfirmDialog(BoxLayout):
 
     # FOR DATE PICKER
     def on_save(self, instance, value, date_range):
+
         self.selected_date = str(value)
         print(self.selected_date)
 
@@ -101,44 +120,50 @@ class ConfirmDialog(BoxLayout):
         date_dialog.open()
 
     def save_items(self):
-        if self.selected_date != '':
-            conn = sqlite3.connect('./assets/data/app_data.db')
-            cursor = conn.cursor()
-            cursor.execute(f'SELECT id FROM accounts WHERE status ="active"')
-            uid = cursor.fetchone()
+        if self.ids.field.text == '':
+            self.warning()
+        else:
+            if self.selected_date != '':
+                conn = sqlite3.connect('./assets/data/app_data.db')
+                cursor = conn.cursor()
+                cursor.execute(f'SELECT id FROM accounts WHERE status ="active"')
+                uid = cursor.fetchone()
 
-            cursor.execute(f'SELECT * FROM cart WHERE usr_id = {uid[0]}')
-            rows = cursor.fetchall()
-            cursor.execute('CREATE TABLE IF NOT EXISTS pending(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, usr_id, '
-                           'product_id, name, price, count, size, date, res_id)')
+                cursor.execute(f'SELECT * FROM cart WHERE usr_id = {uid[0]}')
+                rows = cursor.fetchall()
+                cursor.execute('CREATE TABLE IF NOT EXISTS pending(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, usr_id, '
+                               'product_id, name, price, count, size, date, res_id)')
 
-            res_id = ''
-            for i in range(10):
-                res_id = res_id + str(random.randint(0, 9))
+                res_id = ''
+                for i in range(10):
+                    res_id = res_id + str(random.randint(0, 9))
 
-            for row in rows:
-                insert = 'INSERT INTO pending(usr_id, product_id, name, price, count, size, date, res_id) ' \
-                         'VALUES (?,?,?,?,?,?,?,?)'
-                cursor.execute(insert, (row[1], row[2], row[3], row[4], row[6], row[7], self.selected_date, res_id))
+                for row in rows:
+                    insert = 'INSERT INTO pending(usr_id, product_id, name, price, count, size, date, res_id) ' \
+                             'VALUES (?,?,?,?,?,?,?,?)'
+                    cursor.execute(insert, (row[1], row[2], row[3], row[4], row[6], row[7], self.selected_date, res_id))
+                    conn.commit()
+
+                cursor.execute(f'DELETE from cart WHERE usr_id = {uid[0]}')
                 conn.commit()
+                cursor.close()
+                conn.close()
+                conn = sqlite3.connect(f'./assets/data/queue_{datetime.date.today()}.db')
+                cursor = conn.cursor()
+                cursor.execute(f'CREATE TABLE IF NOT EXISTS AM(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,  res_id, date)')
+                cursor.execute(f'CREATE TABLE IF NOT EXISTS PM(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,  res_id, date)')
+                if self.ids.field.text == 'MORNING':
+                    cursor.execute(f'INSERT INTO AM(res_id, date) VALUES ({res_id}, "{self.selected_date}")')
+                elif self.ids.field.text == 'AFTERNOON':
+                    cursor.execute(f'INSERT INTO PM(res_id, date) VALUES ({res_id}, "{self.selected_date}")')
 
-            cursor.execute(f'DELETE from cart WHERE usr_id = {uid[0]}')
-            conn.commit()
-            cursor.close()
-            conn.close()
-            conn = sqlite3.connect(f'./assets/data/queue_{datetime.date.today()}.db')
-            cursor = conn.cursor()
-            cursor.execute(f'CREATE TABLE IF NOT EXISTS AM(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,  res_id, date)')
-            cursor.execute(f'CREATE TABLE IF NOT EXISTS PM(id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT,  res_id, date)')
-            if self.ids.field.text == 'MORNING':
-                cursor.execute(f'INSERT INTO AM(res_id, date) VALUES ({res_id}, "{self.selected_date}")')
-            elif self.ids.field.text == 'AFTERNOON':
-                cursor.execute(f'INSERT INTO PM(res_id, date) VALUES ({res_id}, "{self.selected_date}")')
+                conn.commit()
+                conn.close()
+                self.reset()
+                self.success()
 
-            conn.commit()
-            conn.close()
-
-            self.success()
+    def reset(self):
+        self.ids.field.text = ''
 
     def success(self):
         dialog = AKAlertDialog(
@@ -146,6 +171,19 @@ class ConfirmDialog(BoxLayout):
         )
         content = Factory.SuccessDialog()
         content.ids.button.bind(on_release=dialog.dismiss)
+        dialog.content_cls = content
+        dialog.open()
+
+    def warning(self):
+        dialog = AKAlertDialog(
+            header_icon="exclamation",
+            header_bg=[1, 0.75, 0, 1],
+            progress_interval=3,
+        )
+        dialog.bind(on_progress_finish=dialog.dismiss)
+        content = Factory.WarningDialog4()
+        content.ids.submit.bind(on_release=dialog.dismiss)
+        content.bind(on_release=dialog.dismiss)
         dialog.content_cls = content
         dialog.open()
 
@@ -157,6 +195,7 @@ class Cart(Screen):
         super(Cart, self).__init__(**kwargs)
 
         self.get = MDApp.get_running_app()
+
 
     def show_confirmation_dialog(self):
         if not self.dialog:
@@ -172,9 +211,9 @@ class Cart(Screen):
 
         self.dialog.open()
 
+
     def on_enter(self, *args):
         data_items = self.store_direct()
-
         async def on_enter():
             for info in data_items:
                 await asynckivy.sleep(0)

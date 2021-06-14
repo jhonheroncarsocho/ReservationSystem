@@ -73,3 +73,56 @@
                 markup: True
                 pos_hint: {'center_x': .2, 'center_y': .25}
                 on_release: app.root.current = 'login'
+
+
+<ErrorDialog2@BoxLayout>:
+    orientation: "vertical"
+    spacing: dp(10)
+    padding: dp(20)
+
+    MDLabel:
+        text: "[font=assets/fonts/Rubik/Rubik-Light.ttf]OOPPSS[/font]"
+        halign: "center"
+        theme_text_color: "Custom"
+        text_color: .9, 0, 0, 1
+
+    MDLabel:
+        text: "[font=assets/fonts/Rubik/Rubik-Light.ttf]Password doesn't match[/font]"
+        markup: True
+        halign: "center"
+        theme_text_color: "Custom"
+        text_color: .9, 0, 0, 1
+        font_style: "Caption"
+
+    MDFillRoundFlatButton:
+        id: button
+        text: "Dismiss"
+        md_bg_color: .9, 0, 0, 1
+        pos_hint: {"center_x": .5}
+
+
+<ErrorDialog3@BoxLayout>:
+    orientation: "vertical"
+    spacing: dp(10)
+    padding: dp(20)
+
+    MDLabel:
+        text: "[font=assets/fonts/Rubik/Rubik-Light.ttf]Invalid Entry[/font]"
+        halign: "center"
+        theme_text_color: "Custom"
+        text_color: .9, 0, 0, 1
+
+    MDLabel:
+        text: "[font=assets/fonts/Rubik/Rubik-Light.ttf]Don't leave empty field[/font]"
+        markup: True
+        halign: "center"
+        theme_text_color: "Custom"
+        text_color: .9, 0, 0, 1
+        font_style: "Caption"
+
+    MDFillRoundFlatButton:
+        id: button
+        text: "Dismiss"
+        md_bg_color: .9, 0, 0, 1
+        pos_hint: {"center_x": .5}
+

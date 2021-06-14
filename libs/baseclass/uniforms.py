@@ -10,6 +10,8 @@ from kivymd.uix.behaviors import MagicBehavior
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivy.utils import get_color_from_hex
 from kivymd.color_definitions import colors
+from kivymd_extensions.akivymd.uix.dialogs import AKAlertDialog
+from kivy.factory import Factory
 
 
 Builder.load_file('./libs/kv/uniforms.kv')
@@ -44,12 +46,13 @@ class UniformCard(MDCard):
                     insert = 'INSERT INTO cart (usr_id, product_id, name, price, stocks, count, size, category) ' \
                              'VALUES (?,?,?,?,?,?,?,?)'
                     cursor.execute(insert, (uid[0], self.index, self.name, self.price,  self.stocks, 1, get.selected, self.category))
+                    self.bottom_right()
                 else:
                     if get_product[7] == get.selected:
                         cursor.execute(f'SELECT count FROM cart WHERE product_id = {self.index} and size = "{get.selected}"')
                         get_count = cursor.fetchone()
                         if get_count[0] != self.stocks:
-
+                            self.bottom_right()
                             cursor.execute(f'UPDATE cart SET count = {get_count[0] + 1} WHERE product_id = {self.index} '
                                            f'and usr_id = {uid[0]} and size = "{get.selected}"')
                     else:
@@ -61,8 +64,39 @@ class UniformCard(MDCard):
                 conn.close()
             get.selected = ''
         else:
+            self.warning()
             print('Select size')
 
+    def warning(self):
+        dialog = AKAlertDialog(
+            header_icon="exclamation",
+            header_bg=[1, 0.75, 0, 1],
+            progress_interval=3,
+        )
+        dialog.bind(on_progress_finish=dialog.dismiss)
+        content = Factory.WarningDialog1()
+        content.ids.submit.bind(on_release=dialog.dismiss)
+        content.bind(on_release=dialog.dismiss)
+        dialog.content_cls = content
+        dialog.open()
+
+    def bottom_right(self):
+        dialog = AKAlertDialog(
+            header_bg=get_color_from_hex('#FEDBD0'),
+            header_icon="bell",
+            progress_interval=3,
+            fixed_orientation="landscape",
+            pos_hint={"right": 1, "y": 0.05},
+            dialog_radius=0,
+            opening_duration=3,
+            size_landscape=["350dp", "70dp"],
+            header_width_landscape="70dp",
+        )
+        dialog.bind(on_progress_finish=dialog.dismiss)
+        content = Factory.Notification1()
+        content.ids.button.bind(on_release=dialog.dismiss)
+        dialog.content_cls = content
+        dialog.open()
 
 class PlanItem(ThemableBehavior, MagicBehavior, MDBoxLayout):
     text_item = StringProperty()
