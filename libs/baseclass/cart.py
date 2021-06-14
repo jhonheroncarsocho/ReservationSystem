@@ -204,3 +204,6 @@ class Cart(Screen):
             data_items.append(row)
 
         return data_items  # data_items
+
+    def on_leave(self, *args):
+        self.ids.content.clear_widgets()
